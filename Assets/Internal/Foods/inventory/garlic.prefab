@@ -387,3 +387,7 @@ MonoBehaviour:
   currentQuantity: 1
   itemType: 8
   itemName: garlic
+  useItemNameToDisplay: 1
+  displayName: 
+  description: "\u0102n \u0111\u1EC3 h\u1ED3i ph\u1EE5c m\xE1u c\u0169ng nh\u01B0
+    n\u0103ng l\u01B0\u1EE3ng"

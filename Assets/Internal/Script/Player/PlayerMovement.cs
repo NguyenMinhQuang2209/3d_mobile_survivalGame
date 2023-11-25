@@ -3,13 +3,11 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public static float RUN_CONDITION = 0.5f;
 
     private CharacterController controller;
     public Animator animator;
 
     [Header("Default Config")]
-    [SerializeField] private float walkSpeed = 1f;
     [SerializeField] private float runSpeed = 3f;
     [SerializeField] private float jumpHeight = 1f;
     [SerializeField] private float rotateSpeed = 0.1f;
@@ -29,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask interactMask;
     [SerializeField] private float interactRadious;
     [SerializeField] private Transform interactTarget;
+    [SerializeField] private bool showInteractCircle = false;
 
     float currentVelocity;
     bool isGround = false;
@@ -50,13 +49,9 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveDir = new Vector3(input.x, 0f, input.y).normalized;
         if (moveDir.magnitude >= 0.1f)
         {
-            currentSpeed = walkSpeed;
             float magnitude = input.magnitude;
             float mappedValue = Mathf.Clamp01(magnitude);
-            if (mappedValue >= RUN_CONDITION)
-            {
-                currentSpeed = runSpeed;
-            }
+            currentSpeed = Mathf.Lerp(0f, runSpeed, mappedValue);
             float targetAngle = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref currentVelocity, rotateSpeed);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
@@ -85,12 +80,17 @@ public class PlayerMovement : MonoBehaviour
     }
     private void PlayerInteract()
     {
+        if (HandIconManager.instance.GetCurrentState() == HandIconManager.BUILDING_STATE)
+        {
+            return;
+        }
         InteractController.instance.ClearInteractText();
         Collider[] hit = Physics.OverlapSphere(interactTarget.position, interactRadious, interactMask);
         if (hit.Length > 0)
         {
             if (hit[0].gameObject.TryGetComponent<Interactible>(out var interactible))
             {
+                HandIconManager.instance.ChangeInteractingState(HandIconManager.INTERACING_STATE);
                 interactibleTarget = interactible;
                 Vector3 screenPos = Camera.main.WorldToScreenPoint(hit[0].transform.position);
                 Vector3 offset = Vector3.zero;
@@ -104,11 +104,13 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 interactibleTarget = null;
+                HandIconManager.instance.ChangeInteractingState(HandIconManager.PUNCHING_STATE);
             }
         }
         else
         {
             interactibleTarget = null;
+            HandIconManager.instance.ChangeInteractingState(HandIconManager.PUNCHING_STATE);
         }
     }
     public void OnInteract()
@@ -117,6 +119,10 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnDrawGizmos()
     {
+        if (!showInteractCircle)
+        {
+            return;
+        }
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(interactTarget.position, interactRadious);
     }

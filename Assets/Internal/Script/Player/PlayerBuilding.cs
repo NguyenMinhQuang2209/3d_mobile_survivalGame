@@ -16,13 +16,19 @@ public class PlayerBuilding : MonoBehaviour
     }
     public void ChangeBuildingItem(BuildingItem newBuildingItem)
     {
+
         buildingItem = newBuildingItem;
+
         if (currentObj != null)
         {
             Destroy(currentObj.gameObject);
+            currentObj = null;
         }
+
         if (buildingItem != null)
         {
+            HandIconManager.instance.ChangeInteractingState(HandIconManager.BUILDING_STATE);
+            CancelIconManager.instance.ChangeCancelState(CancelIconManager.CANCEL_TAG_BUILDING);
             GameObject tempObj = Instantiate(buildingItem.preview, currentPos, Quaternion.Euler(currentRot));
             currentObj = tempObj.transform;
         }
@@ -36,11 +42,16 @@ public class PlayerBuilding : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, raycastDistance, buildingMask))
         {
             currentPos = hit.point;
+            currentPos = new Vector3(Mathf.Round(currentPos.x), currentPos.y, Mathf.Round(currentPos.z));
             if (currentObj != null)
             {
                 currentObj.position = currentPos;
             }
         }
+    }
+    public void SpawnObject()
+    {
+        Instantiate(buildingItem.building, currentPos, Quaternion.Euler(currentRot));
     }
 }
 [System.Serializable]

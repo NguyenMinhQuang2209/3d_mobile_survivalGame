@@ -8,7 +8,6 @@ public class UIController : MonoBehaviour
     public static string PLAYER_TAG = "Player";
 
     public Button jump;
-    public Button interact;
 
     private GameObject player;
     public static UIController instance;
@@ -28,10 +27,6 @@ public class UIController : MonoBehaviour
         {
             Jump();
         });
-        interact.onClick.AddListener(() =>
-        {
-            Interact();
-        });
     }
     private void Jump()
     {
@@ -40,7 +35,7 @@ public class UIController : MonoBehaviour
             player.GetComponent<PlayerMovement>().Jump();
         }
     }
-    private void Interact()
+    public void Interact()
     {
         if (player != null)
         {

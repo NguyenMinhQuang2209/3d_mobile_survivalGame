@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class BuildingController : MonoBehaviour
 {
@@ -20,6 +21,15 @@ public class BuildingController : MonoBehaviour
         if (player != null && player.TryGetComponent<PlayerBuilding>(out var playerBuilding))
         {
             playerBuilding.ChangeBuildingItem(item);
+        }
+        CursorController.instance.OnChangeCursorName("", null);
+    }
+    public void SpawnBuildingItem()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag(TagController.PLAYER_TAG);
+        if (player != null && player.TryGetComponent<PlayerBuilding>(out var playerBuilding))
+        {
+            playerBuilding.SpawnObject();
         }
     }
 }

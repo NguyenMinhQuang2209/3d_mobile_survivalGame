@@ -15,6 +15,7 @@ public class InventoryAction : MonoBehaviour
 
     public List<ItemType> equipmentTypes = new();
     public List<ItemType> foodTypes = new();
+    public List<ItemType> buildingTypes = new();
 
     InventoryItem item;
     private void Start()
@@ -53,6 +54,14 @@ public class InventoryAction : MonoBehaviour
                 {
 
                 }
+                else if (buildingTypes.Contains(item.GetItemType()))
+                {
+                    if (item.TryGetComponent<InventoryBuildingItem>(out var buildingItem))
+                    {
+                        buildingItem.UseBuildingItem();
+                        CloseActionBar();
+                    }
+                }
                 else
                 {
 
@@ -81,11 +90,12 @@ public class InventoryAction : MonoBehaviour
                 useBtnTxt.text = isEquipmentItem ? "Tháo ra" : "Trang bị";
                 show = true;
             }
-            else if (foodTypes.Contains(type))
+            else if (foodTypes.Contains(type) || buildingTypes.Contains(type))
             {
                 useBtnTxt.text = "Sử dụng";
                 show = true;
             }
+
             useBtn.gameObject.SetActive(show);
         }
     }

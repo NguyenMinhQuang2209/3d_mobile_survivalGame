@@ -9,5 +9,20 @@ public enum ItemType
     Tool,
     Building,
     Food,
-    Bag
+    Bag,
+    Seed
+}
+public enum ColorName
+{
+    Red,
+    Green,
+    Blue,
+    Orange,
+    Yellow,
+    Black,
+    White,
+    Purple,
+    Violet,
+    Pink,
+    Blur_Green,
 }

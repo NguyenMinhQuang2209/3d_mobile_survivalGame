@@ -20,6 +20,10 @@ public class CursorController : MonoBehaviour
     public float offsetY = 5f;
 
     InventoryItem currentInventoryItem;
+
+    string currentCursorName = string.Empty;
+    List<GameObject> currentCursors = new();
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -55,9 +59,34 @@ public class CursorController : MonoBehaviour
         itemActionBar.gameObject.SetActive(currentInventoryItem != null);
     }
 
-    public void InteractWithInventory(bool v)
+    public void InteractWithInventory()
     {
-        parentInventoryContainer.SetActive(v);
+        OnChangeCursorName("inventory", new() { parentInventoryContainer });
         OnClickInventoryItem(null);
+    }
+    public void OnChangeCursorName(string currentCursorName, List<GameObject> newCursorList)
+    {
+        if (currentCursorName == this.currentCursorName)
+        {
+            this.currentCursorName = string.Empty;
+            InteractCurrentCursor(false);
+            currentCursors = null;
+            return;
+        }
+        this.currentCursorName = currentCursorName;
+        InteractCurrentCursor(false);
+        currentCursors = newCursorList;
+        InteractCurrentCursor(true);
+    }
+    private void InteractCurrentCursor(bool v)
+    {
+        if (currentCursors == null)
+        {
+            return;
+        }
+        foreach (GameObject item in currentCursors)
+        {
+            item.SetActive(v);
+        }
     }
 }
