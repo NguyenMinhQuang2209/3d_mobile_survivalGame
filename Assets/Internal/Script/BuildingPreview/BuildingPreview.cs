@@ -44,4 +44,8 @@ public class BuildingPreview : MonoBehaviour
             colliders.Remove(other);
         }
     }
+    public bool CanBuild()
+    {
+        return canBuilding;
+    }
 }

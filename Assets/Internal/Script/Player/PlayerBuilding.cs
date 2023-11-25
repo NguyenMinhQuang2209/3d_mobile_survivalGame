@@ -51,7 +51,20 @@ public class PlayerBuilding : MonoBehaviour
     }
     public void SpawnObject()
     {
-        Instantiate(buildingItem.building, currentPos, Quaternion.Euler(currentRot));
+        if (currentObj != null && currentObj.gameObject.TryGetComponent<ObjectConfig>(out var objectConfig))
+        {
+            if (objectConfig.mainObject.TryGetComponent<BuildingPreview>(out var buildingPreviewItem))
+            {
+                if (buildingPreviewItem.CanBuild())
+                {
+                    Instantiate(buildingItem.building, currentPos, Quaternion.Euler(currentRot));
+                }
+                else
+                {
+                    LogController.instance.Log("Can not build this object");
+                }
+            }
+        }
     }
 }
 [System.Serializable]
