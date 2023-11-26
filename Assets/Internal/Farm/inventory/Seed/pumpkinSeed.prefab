@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 374440679712404348}
   - component: {fileID: 4908762541125959836}
   - component: {fileID: 7572051096902444887}
+  - component: {fileID: -4958853813800037766}
   m_Layer: 5
   m_Name: pumpkinSeed
   m_TagString: Untagged
@@ -256,6 +257,34 @@ MonoBehaviour:
   useItemNameToDisplay: 0
   displayName: "H\u1EA1t b\xED ng\xF4"
   description: "D\xF9ng \u0111\u1EC3 tr\u1ED3ng b\xED ng\xF4"
+--- !u!114 &-4958853813800037766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7169363470788585287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7e74ab6189233e46bfdef5335d88975, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useSameTime: 1
+  sameTime: 5
+  growingRateTime: 1
+  planItems:
+  - prefab: {fileID: 6602390506678500249, guid: ac49c3bc7d88a3f4b9ea35e1c86dd9da,
+      type: 3}
+    growingTime: 0
+  - prefab: {fileID: 6643622613665142552, guid: 79ac5693fbf897a4193e4e3015d705f0,
+      type: 3}
+    growingTime: 0
+  - prefab: {fileID: 3682098691985250541, guid: cd56abb85db12594c9cff9cf65fadb5b,
+      type: 3}
+    growingTime: 0
+  - prefab: {fileID: 5251716658784588555, guid: 70108d6dd2731a64b9fa9f21a3327fc5,
+      type: 3}
+    growingTime: 0
 --- !u!1 &7741320591134171995
 GameObject:
   m_ObjectHideFlags: 0

@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 5762519373118187585}
   - component: {fileID: 3722632089438219778}
   - component: {fileID: 8339008435155330027}
+  - component: {fileID: 1413563137400086517}
   m_Layer: 5
   m_Name: cornSeed
   m_TagString: Untagged
@@ -384,9 +385,36 @@ MonoBehaviour:
   quantityTxt: {fileID: 4218682197235641099}
   useStack: 1
   maxQuantity: 10
-  currentQuantity: 1
+  currentQuantity: 5
   itemType: 10
   itemName: cornSeed
   useItemNameToDisplay: 0
   displayName: "H\u1EA1t ng\xF4"
   description: "D\xF9ng \u0111\u1EC3 tr\u1ED3ng ng\xF4"
+--- !u!114 &1413563137400086517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7809766887665916700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7e74ab6189233e46bfdef5335d88975, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useSameTime: 1
+  sameTime: 5
+  growingRateTime: 1
+  planItems:
+  - prefab: {fileID: 170704198431250328, guid: c4aa3985f4166e240ad4cc05055f5046, type: 3}
+    growingTime: 0
+  - prefab: {fileID: 4837458915388764638, guid: 401c6e75d2d329d41a56339f955f94d1,
+      type: 3}
+    growingTime: 0
+  - prefab: {fileID: 5472972159968281280, guid: 7ae9af47b91f6a543a51b57dee26bed8,
+      type: 3}
+    growingTime: 0
+  - prefab: {fileID: 8082809774196816370, guid: a43973eb3ed33bd4587917f962fd0b24,
+      type: 3}
+    growingTime: 0

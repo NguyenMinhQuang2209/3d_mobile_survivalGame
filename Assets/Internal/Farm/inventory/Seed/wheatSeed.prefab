@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 9197619528187580540}
   - component: {fileID: 139385931631896798}
   - component: {fileID: 8571979591461860951}
+  - component: {fileID: 2975011142048323165}
   m_Layer: 5
   m_Name: wheatSeed
   m_TagString: Untagged
@@ -390,3 +391,30 @@ MonoBehaviour:
   useItemNameToDisplay: 0
   displayName: "H\u1EA1t g\u1EA1o"
   description: "D\xF9ng \u0111\u1EC3 tr\u1ED3ng l\xFAa"
+--- !u!114 &2975011142048323165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9123862327481315929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7e74ab6189233e46bfdef5335d88975, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useSameTime: 1
+  sameTime: 5
+  growingRateTime: 1
+  planItems:
+  - prefab: {fileID: 2083335782633512015, guid: 34b2800ea203d0a4e9a4e096e84447a6,
+      type: 3}
+    growingTime: 0
+  - prefab: {fileID: 567365102511629717, guid: ca96088156bd89a489101e9f66753689, type: 3}
+    growingTime: 0
+  - prefab: {fileID: 6049615669268491066, guid: 8952f6a583b9e8443a2ec8aace28b473,
+      type: 3}
+    growingTime: 0
+  - prefab: {fileID: 3470601405007419964, guid: c10845f8e3708ba43b2e4301a5ad13a0,
+      type: 3}
+    growingTime: 0

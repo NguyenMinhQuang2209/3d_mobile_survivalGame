@@ -26,3 +26,11 @@ public enum ColorName
     Pink,
     Blur_Green,
 }
+public enum PreItemName
+{
+    Other,
+}
+public enum PreItemType
+{
+    Other,
+}

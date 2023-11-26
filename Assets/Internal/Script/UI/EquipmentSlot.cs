@@ -18,14 +18,18 @@ public class EquipmentSlot : MonoBehaviour
         if (container.childCount == 0)
         {
             inventoryItem = item;
-            inventoryItem.transform.parent = container;
+            inventoryItem.transform.SetParent(container, false);
         }
         else
         {
             Transform previousParent = item.transform.parent;
-            inventoryItem.transform.parent = previousParent;
-            item.transform.parent = container;
+            inventoryItem.transform.SetParent(previousParent, false);
+            item.transform.SetParent(container, false);
             inventoryItem = item;
         }
+    }
+    public GameObject GetEquipmentObject()
+    {
+        return container.childCount > 0 ? container.GetChild(0).gameObject : null;
     }
 }
