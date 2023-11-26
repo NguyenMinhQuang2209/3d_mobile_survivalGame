@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class InventorySeedItem : MonoBehaviour
 {
-    [SerializeField] private bool useSameTime = false;
+    public PreItemType preItemType;
+    public PreItemName preItemName;
 
+    [SerializeField] private bool useSameTime = false;
     [Tooltip("Only using for usesametime = true")]
     [SerializeField] private float sameTime = 0f;
     [SerializeField] private float growingRateTime = 1f;
+    public string displayName = "";
 
     [Space(10)]
     [SerializeField] private List<PlanItem> planItems = new();
@@ -24,6 +27,7 @@ public class InventorySeedItem : MonoBehaviour
     {
         return growingRateTime;
     }
+
 }
 [System.Serializable]
 public class PlanItem

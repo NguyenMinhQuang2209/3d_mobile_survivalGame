@@ -403,9 +403,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7e74ab6189233e46bfdef5335d88975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  preItemType: 1
+  preItemName: 2
   useSameTime: 1
   sameTime: 5
   growingRateTime: 1
+  displayName: "Ng\xF4"
   planItems:
   - prefab: {fileID: 170704198431250328, guid: c4aa3985f4166e240ad4cc05055f5046, type: 3}
     growingTime: 0

@@ -67,7 +67,6 @@ public class InventoryItem : MonoBehaviour
         currentQuantity += value;
         if (currentQuantity < 0)
         {
-            Destroy(gameObject, 0.1f);
             return currentQuantity;
         }
         return 0;

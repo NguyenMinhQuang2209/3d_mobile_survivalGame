@@ -1,4 +1,4 @@
-public enum ItemType
+﻿public enum ItemType
 {
     Other,
     Hand,
@@ -29,8 +29,12 @@ public enum ColorName
 public enum PreItemName
 {
     Other,
+    Pumpkin,
+    Corn,
+    Wheat
 }
 public enum PreItemType
 {
     Other,
+    Seed
 }

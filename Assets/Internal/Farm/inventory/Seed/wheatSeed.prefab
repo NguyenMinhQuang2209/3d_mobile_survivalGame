@@ -403,9 +403,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7e74ab6189233e46bfdef5335d88975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  preItemType: 1
+  preItemName: 3
   useSameTime: 1
   sameTime: 5
   growingRateTime: 1
+  displayName: "L\xFAa"
   planItems:
   - prefab: {fileID: 2083335782633512015, guid: 34b2800ea203d0a4e9a4e096e84447a6,
       type: 3}

@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditorInternal.Profiling.Memory.Experimental;
+﻿using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlanTree : Interactible
@@ -13,6 +11,11 @@ public class PlanTree : Interactible
     float targetGrowingTime = 0f;
     float currentItemRateGrowingTime = 1f;
     GameObject currentStateObject = null;
+    string defaultPromptMessage = string.Empty;
+    private void Start()
+    {
+        defaultPromptMessage = promptMessage;
+    }
 
     [SerializeField] private GameObject planParent;
     private void Update()
@@ -20,15 +23,19 @@ public class PlanTree : Interactible
         if (currentItem != null && !canCollect)
         {
             currentGrowingTime += Time.deltaTime * currentItemRateGrowingTime;
+
             if (currentGrowingTime >= targetGrowingTime)
             {
                 if (currentIndex >= currentItem.GetPlanItems().Count - 1)
                 {
                     canCollect = true;
+                    promptMessage = MessageController.COLLECTING_MESSAGE;
                 }
                 else
                 {
+                    currentGrowingTime = 0f;
                     currentIndex += 1;
+                    promptMessage = currentItem.displayName + " \n Level: " + (currentIndex + 1);
                     targetGrowingTime = currentItem.GetGrowingTime(currentIndex);
                     if (currentStateObject != null)
                     {
@@ -44,10 +51,21 @@ public class PlanTree : Interactible
         if (currentItem == null)
         {
             GameObject handHolding = EquipmentController.instance.GetEquipmentObject(EquipmentType.Hand);
-            if (handHolding != null && handHolding.TryGetComponent<InventorySeedItem>(out var seedItem))
+            if (handHolding != null && handHolding.TryGetComponent<InventoryItem>(out var inventoryItem) && handHolding.TryGetComponent<InventorySeedItem>(out var seedItem))
             {
-                PlanSeedItem(seedItem);
-                Debug.Log("HEre");
+                GameObject pre = PrefabController.instance.GetGameObject(seedItem.preItemType, seedItem.preItemName);
+                if (pre != null && pre.TryGetComponent<InventorySeedItem>(out var seedItemPre))
+                {
+                    PlanSeedItem(seedItemPre);
+                    inventoryItem.MinusItem(-1);
+                }
+            }
+        }
+        else
+        {
+            if (canCollect)
+            {
+                Collecting();
             }
         }
     }
@@ -63,6 +81,7 @@ public class PlanTree : Interactible
         }
         if (currentItem != null)
         {
+            promptMessage = currentItem.displayName + " \n Level: " + (currentIndex + 1);
             currentItemRateGrowingTime = currentItem.GetGrowingRateTime();
             targetGrowingTime = newItem.GetGrowingTime(currentIndex);
             currentStateObject = Instantiate(currentItem.GetPlanItems()[currentIndex].prefab, planParent.transform);
@@ -73,6 +92,7 @@ public class PlanTree : Interactible
         if (canCollect)
         {
             PlanSeedItem(null);
+            promptMessage = defaultPromptMessage;
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -53,6 +54,11 @@ public class PrefabController : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public static implicit operator PrefabController(MessageController v)
+    {
+        throw new NotImplementedException();
     }
 }
 [System.Serializable]

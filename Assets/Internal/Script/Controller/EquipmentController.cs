@@ -41,22 +41,18 @@ public class EquipmentController : MonoBehaviour
         switch (type)
         {
             case EquipmentType.Hand:
-                hand.GetEquipmentObject();
-                break;
+                return hand.GetEquipmentObject();
             case EquipmentType.Hat:
-                hat.GetEquipmentObject();
-                break;
+                return hat.GetEquipmentObject();
             case EquipmentType.Shoe:
-                shoe.GetEquipmentObject();
-                break;
+                return shoe.GetEquipmentObject();
             case EquipmentType.Pant:
-                pant.GetEquipmentObject();
-                break;
+                return pant.GetEquipmentObject();
             case EquipmentType.Shirt:
-                shirt.GetEquipmentObject();
-                break;
+                return shirt.GetEquipmentObject();
             case EquipmentType.Bag:
-                bag.GetEquipmentObject();
+                return bag.GetEquipmentObject();
+            default:
                 break;
         }
         return null;
