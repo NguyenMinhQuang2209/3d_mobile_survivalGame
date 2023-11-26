@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PlayerBuilding : MonoBehaviour
 {
@@ -7,9 +10,10 @@ public class PlayerBuilding : MonoBehaviour
     Vector3 currentPos;
     Vector3 currentRot;
 
-    [SerializeField] private float offsetForward = 1f;
-    [SerializeField] private float raycastDistance = 10f;
     [SerializeField] private LayerMask buildingMask;
+    [SerializeField] private string iconTag = "Icons";
+    [SerializeField] private GraphicRaycaster uiRaycaster;
+
     private void Update()
     {
         Show();
@@ -27,25 +31,48 @@ public class PlayerBuilding : MonoBehaviour
         {
             HandIconManager.instance.ChangeInteractingState(HandIconManager.BUILDING_STATE);
             CancelIconManager.instance.ChangeCancelState(CancelIconManager.CANCEL_TAG_BUILDING);
-            GameObject tempObj = Instantiate(buildingItem.preview, currentPos, Quaternion.Euler(currentRot));
+            GameObject tempObj = Instantiate(buildingItem.preview, transform.forward, Quaternion.Euler(currentRot));
             currentObj = tempObj.transform;
         }
     }
     public void Show()
     {
-        Vector3 buildingPos = transform.position + transform.forward * offsetForward;
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(buildingPos);
-        Ray ray = Camera.main.ScreenPointToRay(screenPos);
-        Debug.DrawRay(ray.origin, ray.direction * raycastDistance);
-        if (Physics.Raycast(ray, out RaycastHit hit, raycastDistance, buildingMask))
+        if (Input.touchCount > 0)
         {
-            currentPos = hit.point;
-            currentPos = new Vector3(Mathf.Round(currentPos.x), currentPos.y, Mathf.Round(currentPos.z));
-            if (currentObj != null)
+            Touch touch = Input.GetTouch(0);
+            Ray ray = Camera.main.ScreenPointToRay(touch.position);
+            if (!CheckTouchIcon(touch.position))
             {
-                currentObj.position = currentPos;
+                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, buildingMask))
+                {
+                    currentPos = hit.point;
+                    currentPos = new Vector3(Mathf.Round(currentPos.x), currentPos.y, Mathf.Round(currentPos.z));
+                    if (currentObj != null)
+                    {
+                        currentObj.position = currentPos;
+                    }
+                }
             }
         }
+    }
+    public bool CheckTouchIcon(Vector2 touchPosition)
+    {
+        PointerEventData eventData = new(EventSystem.current)
+        {
+            position = touchPosition
+        };
+
+        List<RaycastResult> results = new();
+        uiRaycaster.Raycast(eventData, results);
+
+        foreach (RaycastResult result in results)
+        {
+            if (result.gameObject.CompareTag(iconTag))
+            {
+                return true;
+            }
+        }
+        return false;
     }
     public void SpawnObject()
     {

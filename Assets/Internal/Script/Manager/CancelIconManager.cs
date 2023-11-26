@@ -54,6 +54,22 @@ public class CancelIconManager : MonoBehaviour
         cancelIcon.gameObject.SetActive(currentCancelState != "");
         rotateIcon.gameObject.SetActive(currentCancelState != "");
     }
+    public void OnHolding(bool v)
+    {
+        if (currentCancelState == CANCEL_TAG_BUILDING)
+        {
+            if (v)
+            {
+                cancelIcon.gameObject.SetActive(false);
+                rotateIcon.gameObject.SetActive(false);
+            }
+            else
+            {
+                cancelIcon.gameObject.SetActive(currentCancelState != "");
+                rotateIcon.gameObject.SetActive(currentCancelState != "");
+            }
+        }
+    }
     public void RotateBuildingItem()
     {
         BuildingController.instance.RotateItem();
