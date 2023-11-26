@@ -16,9 +16,7 @@ public class PlayerBuilding : MonoBehaviour
     }
     public void ChangeBuildingItem(BuildingItem newBuildingItem)
     {
-
         buildingItem = newBuildingItem;
-
         if (currentObj != null)
         {
             Destroy(currentObj.gameObject);
@@ -57,7 +55,20 @@ public class PlayerBuilding : MonoBehaviour
             {
                 if (buildingPreviewItem.CanBuild())
                 {
-                    Instantiate(buildingItem.building, currentPos, Quaternion.Euler(currentRot));
+                    bool canRemove = InventoryController.instance.RemoveItem(buildingItem.inventoryItem, 1);
+                    if (canRemove)
+                    {
+                        Instantiate(buildingItem.building, currentPos, Quaternion.Euler(currentRot));
+                        int remain = InventoryController.instance.GetQuantity(buildingItem.inventoryItem);
+                        if (remain == 0)
+                        {
+                            CancelIconManager.instance.ChangeCancelState(CancelIconManager.CANCEL_TAG_NONE);
+                        }
+                    }
+                    else
+                    {
+                        LogController.instance.Log("Can not remove in inventory!");
+                    }
                 }
                 else
                 {
@@ -65,6 +76,11 @@ public class PlayerBuilding : MonoBehaviour
                 }
             }
         }
+    }
+    public void RotateObject()
+    {
+        currentRot.y = currentRot.y == 360f ? 90f : currentRot.y + 90f;
+        currentObj.rotation = Quaternion.Euler(currentRot);
     }
 }
 [System.Serializable]

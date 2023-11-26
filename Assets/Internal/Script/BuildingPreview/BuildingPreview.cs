@@ -5,7 +5,7 @@ using UnityEngine;
 public class BuildingPreview : MonoBehaviour
 {
     private Material greenMaterial;
-    public Material redMaterial;
+    private Material redMaterial;
     private List<Collider> colliders = new();
     [SerializeField] private List<int> colliderMasks = new();
 

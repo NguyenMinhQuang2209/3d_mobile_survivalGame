@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryController : MonoBehaviour
@@ -5,6 +6,8 @@ public class InventoryController : MonoBehaviour
     public static InventoryController instance;
 
     public int maxInventorySlot = 24;
+
+    private Dictionary<string, int> stock = new();
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -17,6 +20,7 @@ public class InventoryController : MonoBehaviour
     private void Start()
     {
         OnDrawInventorySlot();
+        UpdateStock();
     }
     private void OnDrawInventorySlot()
     {
@@ -54,6 +58,7 @@ public class InventoryController : MonoBehaviour
             {
                 InventoryItem newItem = Instantiate(item, slot.transform);
                 newItem.ChangeQuantity(quantity);
+                UpdateStock();
                 return true;
             }
             else
@@ -70,6 +75,7 @@ public class InventoryController : MonoBehaviour
                         int remain = childItemInventory.PlusItem(quantity);
                         if (remain == 0)
                         {
+                            UpdateStock();
                             return true;
                         }
                         quantity = remain;
@@ -91,5 +97,65 @@ public class InventoryController : MonoBehaviour
         }
         LogController.instance.Log("Inventory is full");
         return true;
+    }
+    private void UpdateStock()
+    {
+        stock?.Clear();
+        GameObject inventory = CursorController.instance.inventoryContainer;
+        foreach (Transform slot in inventory.transform)
+        {
+            if (slot.childCount > 0)
+            {
+                GameObject child = slot.GetChild(0).gameObject;
+                if (child.TryGetComponent<InventoryItem>(out var childItemInventory))
+                {
+                    UpdateStock(childItemInventory.GetItemName(), childItemInventory.GetCurrentQuantity());
+                }
+            }
+        }
+    }
+    private void UpdateStock(string itemName, int quantity)
+    {
+        stock[itemName] = stock.ContainsKey(itemName) ? stock[itemName] + quantity : quantity;
+    }
+    public bool RemoveItem(string itemName, int removeQuantity = 1)
+    {
+        if (stock.ContainsKey(itemName) && stock[itemName] >= removeQuantity)
+        {
+            GameObject inventory = CursorController.instance.inventoryContainer;
+            foreach (Transform slot in inventory.transform)
+            {
+                if (slot.childCount > 0)
+                {
+                    GameObject child = slot.GetChild(0).gameObject;
+                    if (child.TryGetComponent<InventoryItem>(out var childItemInventory))
+                    {
+                        if (childItemInventory.GetItemName() == itemName)
+                        {
+                            int remain = childItemInventory.MinusItem(removeQuantity * -1);
+                            if (remain == 0)
+                            {
+                                UpdateStock();
+                                return true;
+                            }
+                            removeQuantity = remain * -1;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    public bool RemoveItem(InventoryItem item, int removeQuantity = 1)
+    {
+        return RemoveItem(item.GetItemName(), removeQuantity);
+    }
+    public int GetQuantity(string itemName)
+    {
+        return stock.ContainsKey(itemName) ? stock[itemName] : 0;
+    }
+    public int GetQuantity(InventoryItem item)
+    {
+        return GetQuantity(item.GetItemName());
     }
 }

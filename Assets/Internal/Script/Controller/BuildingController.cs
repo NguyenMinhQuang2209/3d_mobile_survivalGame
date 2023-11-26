@@ -32,4 +32,12 @@ public class BuildingController : MonoBehaviour
             playerBuilding.SpawnObject();
         }
     }
+    public void RotateItem()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag(TagController.PLAYER_TAG);
+        if (player != null && player.TryGetComponent<PlayerBuilding>(out var playerBuilding))
+        {
+            playerBuilding.RotateObject();
+        }
+    }
 }

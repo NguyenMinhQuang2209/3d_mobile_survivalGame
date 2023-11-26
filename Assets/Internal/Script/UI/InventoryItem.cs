@@ -25,6 +25,10 @@ public class InventoryItem : MonoBehaviour
     private void Update()
     {
         UpdateQuantityText();
+        if (currentQuantity <= 0)
+        {
+            Destroy(gameObject, 0.1f);
+        }
     }
     private void Start()
     {
@@ -92,6 +96,10 @@ public class InventoryItem : MonoBehaviour
     public bool CompareObject(InventoryItem item)
     {
         return itemType == item.GetItemType() && itemName == item.GetItemName();
+    }
+    public int GetCurrentQuantity()
+    {
+        return currentQuantity;
     }
     public string GetDisplayName()
     {
