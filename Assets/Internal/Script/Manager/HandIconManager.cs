@@ -4,16 +4,21 @@ using UnityEngine.UI;
 public class HandIconManager : MonoBehaviour
 {
     public static HandIconManager instance;
-    [SerializeField] private GameObject interactIcon;
-    [SerializeField] private GameObject punchIcon;
-    [SerializeField] private GameObject buildingIcon;
 
+
+    [SerializeField] private Image handImage;
     [SerializeField] private Button handlIcon;
+
+    [SerializeField] private Sprite handSprite;
+    [SerializeField] private Sprite interactingSprite;
+    [SerializeField] private Sprite buildingSprite;
     private string currentState = "";
 
     public static string INTERACING_STATE = "Interacting";
     public static string BUILDING_STATE = "Building";
     public static string PUNCHING_STATE = "";
+
+    bool handHasItem = false;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -30,9 +35,6 @@ public class HandIconManager : MonoBehaviour
         {
             HandClick();
         });
-        punchIcon.SetActive(currentState == PUNCHING_STATE);
-        interactIcon.SetActive(currentState == INTERACING_STATE);
-        buildingIcon.SetActive(currentState == BUILDING_STATE);
     }
     public void ChangeInteractingState(string newState)
     {
@@ -45,15 +47,55 @@ public class HandIconManager : MonoBehaviour
             else
             {
                 currentState = newState;
-                punchIcon.SetActive(currentState == PUNCHING_STATE);
-                interactIcon.SetActive(currentState == INTERACING_STATE);
-                buildingIcon.SetActive(currentState == BUILDING_STATE);
+                if (currentState == PUNCHING_STATE)
+                {
+
+                    UpdatePunchIcon();
+                }
+                else if (currentState == INTERACING_STATE)
+                {
+                    if (!handHasItem)
+                    {
+                        handImage.sprite = interactingSprite;
+                    }
+                }
+                else if (currentState == BUILDING_STATE)
+                {
+                    handImage.sprite = buildingSprite;
+                }
             }
+        }
+    }
+    public void UpdatePunchIcon()
+    {
+        if (currentState != PUNCHING_STATE)
+        {
+            return;
+        }
+        GameObject handHolding = EquipmentController.instance.GetEquipmentObject(EquipmentType.Hand);
+        if (handHolding != null && handHolding.GetComponent<InventoryItem>() != null)
+        {
+            GameObject child = handHolding.transform.GetChild(0).gameObject;
+            if (child != null && child.TryGetComponent<Image>(out var childImage))
+            {
+                handImage.sprite = childImage.sprite;
+                handHasItem = true;
+            }
+        }
+        else
+        {
+            handImage.sprite = handSprite;
+            handHasItem = false;
         }
     }
     public string GetCurrentState()
     {
         return currentState;
+    }
+    public void EmergencyState()
+    {
+        handImage.sprite = handSprite;
+        handHasItem = false;
     }
     public void HandClick()
     {

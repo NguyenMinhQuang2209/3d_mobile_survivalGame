@@ -42,7 +42,7 @@ public class InventoryController : MonoBehaviour
         {
             if (slot.childCount == 0)
             {
-                item.transform.parent = slot.transform;
+                item.transform.SetParent(slot.transform, false);
                 return true;
             }
         }

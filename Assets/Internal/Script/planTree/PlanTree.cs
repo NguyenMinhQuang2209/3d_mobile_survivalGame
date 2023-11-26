@@ -56,8 +56,20 @@ public class PlanTree : Interactible
                 GameObject pre = PrefabController.instance.GetGameObject(seedItem.preItemType, seedItem.preItemName);
                 if (pre != null && pre.TryGetComponent<InventorySeedItem>(out var seedItemPre))
                 {
+                    int remain = inventoryItem.GetCurrentQuantity();
+                    if (remain == 0)
+                    {
+                        LogController.instance.Log(MessageController.QUANTITY_ITEM_END);
+                        HandIconManager.instance.EmergencyState();
+                        return;
+                    }
                     PlanSeedItem(seedItemPre);
                     inventoryItem.MinusItem(-1);
+                    if (remain == 1)
+                    {
+                        Destroy(handHolding);
+                        HandIconManager.instance.EmergencyState();
+                    }
                 }
             }
         }

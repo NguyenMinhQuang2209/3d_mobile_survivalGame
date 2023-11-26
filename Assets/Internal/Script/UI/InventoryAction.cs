@@ -39,13 +39,15 @@ public class InventoryAction : MonoBehaviour
                     if (!isEquipmentItem)
                     {
                         EquipmentController.instance.EquipmentItem(item);
+                        HandIconManager.instance.UpdatePunchIcon();
                     }
                     else
                     {
                         bool canAddInventory = InventoryController.instance.UnEquipmentItem(item);
+                        HandIconManager.instance.UpdatePunchIcon();
                         if (!canAddInventory)
                         {
-                            LogController.instance.Log("Inventory is full!", gameObject);
+                            LogController.instance.Log(MessageController.INVENTORY_FULL, gameObject);
                         }
                     }
                     CloseActionBar();

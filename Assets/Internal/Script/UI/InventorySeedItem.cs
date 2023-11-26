@@ -15,6 +15,9 @@ public class InventorySeedItem : MonoBehaviour
 
     [Space(10)]
     [SerializeField] private List<PlanItem> planItems = new();
+
+    [SerializeField] private InventoryItem collectingItem;
+    [SerializeField] private Vector2Int quantity = new();
     public List<PlanItem> GetPlanItems()
     {
         return planItems;
@@ -26,6 +29,14 @@ public class InventorySeedItem : MonoBehaviour
     public float GetGrowingRateTime()
     {
         return growingRateTime;
+    }
+    public InventoryItem GetInventoryItem()
+    {
+        return collectingItem;
+    }
+    public int GetQuantity()
+    {
+        return Random.Range(Mathf.Min(quantity.x, quantity.y), Mathf.Max(quantity.x, quantity.y) + 1);
     }
 
 }
