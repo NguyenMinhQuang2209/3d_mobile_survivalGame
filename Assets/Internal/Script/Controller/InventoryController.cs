@@ -176,5 +176,10 @@ public class InventoryController : MonoBehaviour
         return currentSlot;
     }
 
+    public int GetMaxSlot()
+    {
+        return maxInventorySlot;
+    }
+
 
 }
