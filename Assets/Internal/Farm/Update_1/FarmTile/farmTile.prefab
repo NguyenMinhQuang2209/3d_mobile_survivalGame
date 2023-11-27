@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7069834, y: -0, z: -0, w: 0.7072302}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6167525007302180822}
@@ -128,11 +128,12 @@ MonoBehaviour:
   fertilizer: {fileID: 5225253848263032312}
   wateringDelayTime: 5
   fertilizerDelayTime: 1
+  maxWater: 100
   showUIPosition:
-  - {x: 0, y: 0.2, z: 0}
-  - {x: 0, y: 0.3, z: 0}
-  - {x: 0, y: 0.4, z: 0}
-  - {x: 0, y: 0.65, z: 0}
+  - {x: 0, y: 0.6, z: 0}
+  - {x: 0, y: 0.8, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1.2, z: 0}
   planParent: {fileID: 2342337551995253139}
 --- !u!1 &2342337551995253139
 GameObject:
@@ -345,7 +346,7 @@ RectTransform:
   m_GameObject: {fileID: 7126929344852800174}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3959559675665816652}
@@ -354,7 +355,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.315}
+  m_AnchoredPosition: {x: 0, y: 0.6}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5210995764720087535
