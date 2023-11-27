@@ -10,8 +10,17 @@
     Building,
     Food,
     Bag,
-    Seed
+    Seed,
+    FarmingTool
 }
+
+public enum FarmToolName
+{
+    Other,
+    Water,
+    Fertilizer,
+}
+
 public enum ColorName
 {
     Red,

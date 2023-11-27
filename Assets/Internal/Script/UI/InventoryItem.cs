@@ -108,6 +108,10 @@ public class InventoryItem : MonoBehaviour
     {
         return description;
     }
+    public void SetDescription(string newDescription)
+    {
+        description = newDescription;
+    }
 
     public void UseInventoryItem()
     {
