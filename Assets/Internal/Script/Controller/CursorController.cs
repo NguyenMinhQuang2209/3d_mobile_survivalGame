@@ -8,7 +8,7 @@ public class CursorController : MonoBehaviour
 
     public GameObject parentInventoryContainer;
     public GameObject inventoryContainer;
-    public GameObject inventorySlot;
+    public InventorySlot inventorySlot;
 
     [Space(10)]
     public GameObject bigContainer;
@@ -23,6 +23,17 @@ public class CursorController : MonoBehaviour
 
     string currentCursorName = string.Empty;
     List<GameObject> currentCursors = new();
+
+    [Space(10)]
+    [Header("Box store UI")]
+    public GameObject boxStoreUI;
+    public GameObject boxContainer;
+
+    List<InventoryItem> boxStoringItems = null;
+    Transform currentBoxItem = null;
+
+    [Header("Trash")]
+    public Transform trashUI;
 
     private void Awake()
     {
@@ -61,19 +72,71 @@ public class CursorController : MonoBehaviour
 
     public void InteractWithInventory()
     {
-        OnChangeCursorName("inventory", new() { parentInventoryContainer });
+        OnChangeCursorName(MessageController.OPEN_INVENTORY, new() { parentInventoryContainer });
         OnClickInventoryItem(null);
     }
-    public void OnChangeCursorName(string currentCursorName, List<GameObject> newCursorList)
+    public void InteractWithBox(Transform newObject, int slot, List<InventoryItem> inventoryItems = null)
     {
-        if (currentCursorName == this.currentCursorName)
+        OnChangeCursorName(MessageController.OPEN_BOX, new() { boxContainer, parentInventoryContainer });
+        if (currentBoxItem == newObject)
         {
-            this.currentCursorName = string.Empty;
+            return;
+        }
+        if (boxStoringItems != null)
+        {
+            for (int i = 0; i < boxStoreUI.transform.childCount; i++)
+            {
+                Transform child = boxStoreUI.transform.GetChild(i);
+                if (child != null)
+                {
+                    if (child.childCount > 0)
+                    {
+                        Transform inventoryChild = child.GetChild(0);
+                        if (inventoryChild.gameObject.TryGetComponent<InventoryItem>(out var inventoryItem))
+                        {
+                            inventoryItem.transform.SetParent(trashUI, false);
+                            boxStoringItems[i] = inventoryItem;
+                        }
+                        else
+                        {
+                            boxStoringItems[i] = null;
+                        }
+                    }
+                }
+            }
+        }
+        currentBoxItem = newObject;
+        boxStoringItems = inventoryItems;
+        foreach (Transform item in boxStoreUI.transform)
+        {
+            Destroy(item.gameObject);
+        }
+        for (int i = 0; i < slot; i++)
+        {
+            InventorySlot currentSlot = Instantiate(inventorySlot, boxStoreUI.transform);
+            currentSlot.currentTypeSlot = MessageController.OPEN_BOX;
+            if (inventoryItems[i] != null)
+            {
+                inventoryItems[i].transform.SetParent(currentSlot.transform, false);
+            }
+        }
+        OnClickInventoryItem(null);
+    }
+
+    public string GetCurrentCursorName()
+    {
+        return currentCursorName;
+    }
+    public void OnChangeCursorName(string newCursorName, List<GameObject> newCursorList)
+    {
+        if (currentCursorName == newCursorName)
+        {
+            currentCursorName = string.Empty;
             InteractCurrentCursor(false);
             currentCursors = null;
             return;
         }
-        this.currentCursorName = currentCursorName;
+        currentCursorName = newCursorName;
         InteractCurrentCursor(false);
         currentCursors = newCursorList;
         InteractCurrentCursor(true);
@@ -88,5 +151,10 @@ public class CursorController : MonoBehaviour
         {
             item.SetActive(v);
         }
+    }
+    public void CloseCursor()
+    {
+        OnChangeCursorName("", null);
+        OnClickInventoryItem(null);
     }
 }

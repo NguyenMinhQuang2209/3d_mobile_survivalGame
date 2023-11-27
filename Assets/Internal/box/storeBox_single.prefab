@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3815300300222744953}
   - component: {fileID: 3322699329458439034}
   - component: {fileID: 7888965864399141485}
+  - component: {fileID: -2987819050138092054}
   m_Layer: 7
   m_Name: storeBox_single
   m_TagString: Untagged
@@ -107,3 +108,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 1490014688594724021, guid: 40587a5e924a82d44872583ebf198aa3, type: 3}
+--- !u!114 &-2987819050138092054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3087184568909489960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eaf175a26e48174daca8711764a1233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  promptMessage: "Th\xF9ng 1 chi\u1EC1u"
+  useEvent: 0
+  slots: {x: 5, y: 24}

@@ -7,7 +7,12 @@ public class InventoryController : MonoBehaviour
 
     public int maxInventorySlot = 24;
 
+    public int currentSlot = 1;
+
     private Dictionary<string, int> stock = new();
+
+
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -27,8 +32,8 @@ public class InventoryController : MonoBehaviour
         if (CursorController.instance != null)
         {
             GameObject inventory = CursorController.instance.inventoryContainer;
-            GameObject inventorySlot = CursorController.instance.inventorySlot;
-            for (int i = 0; i < maxInventorySlot; i++)
+            InventorySlot inventorySlot = CursorController.instance.inventorySlot;
+            for (int i = 0; i < currentSlot; i++)
             {
                 Instantiate(inventorySlot, inventory.transform);
             }
@@ -38,6 +43,11 @@ public class InventoryController : MonoBehaviour
     {
         if (IsFull()) return false;
         GameObject inventory = CursorController.instance.inventoryContainer;
+        return UnEquipmentItem(item, inventory);
+    }
+    public bool UnEquipmentItem(InventoryItem item, GameObject inventory)
+    {
+        if (IsFull()) return false;
         foreach (Transform slot in inventory.transform)
         {
             if (slot.childCount == 0)
@@ -98,18 +108,20 @@ public class InventoryController : MonoBehaviour
         LogController.instance.Log("Inventory is full");
         return true;
     }
-    private void UpdateStock()
+    public void UpdateStock()
     {
         stock?.Clear();
         GameObject inventory = CursorController.instance.inventoryContainer;
-        foreach (Transform slot in inventory.transform)
+        for (int i = 0; i < currentSlot; i++)
         {
+            Transform slot = inventory.transform.GetChild(i);
             if (slot.childCount > 0)
             {
                 GameObject child = slot.GetChild(0).gameObject;
                 if (child.TryGetComponent<InventoryItem>(out var childItemInventory))
                 {
                     UpdateStock(childItemInventory.GetItemName(), childItemInventory.GetCurrentQuantity());
+                    continue;
                 }
             }
         }
@@ -158,4 +170,11 @@ public class InventoryController : MonoBehaviour
     {
         return GetQuantity(item.GetItemName());
     }
+
+    public int GetCurrentSlot()
+    {
+        return currentSlot;
+    }
+
+
 }

@@ -2,6 +2,10 @@
 
 public class MessageController : MonoBehaviour
 {
+    //UI type
+    public static string OPEN_BOX = "box";
+    public static string OPEN_INVENTORY = "inventory";
+
     //Success
     public static string COLLECTING_MESSAGE = "Có thể thu hoạch!";
 

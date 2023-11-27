@@ -18,6 +18,7 @@ public class InventoryAction : MonoBehaviour
     public List<ItemType> buildingTypes = new();
 
     InventoryItem item;
+
     private void Start()
     {
         closeBtn.onClick.AddListener(() =>
@@ -30,10 +31,36 @@ public class InventoryAction : MonoBehaviour
             {
                 GameObject itemParent = item.transform.parent.gameObject;
                 bool isEquipmentItem = true;
-                if (itemParent.GetComponent<InventorySlot>() != null)
+                string currentSlotType = "";
+                if (itemParent.TryGetComponent<InventorySlot>(out var inventorySlot))
                 {
                     isEquipmentItem = false;
+                    currentSlotType = inventorySlot.currentTypeSlot;
                 }
+                if (CursorController.instance.GetCurrentCursorName() == MessageController.OPEN_BOX)
+                {
+                    if (currentSlotType == MessageController.OPEN_BOX)
+                    {
+                        bool canAddInventory = InventoryController.instance.UnEquipmentItem(item);
+                        if (!canAddInventory)
+                        {
+                            LogController.instance.Log(MessageController.INVENTORY_FULL, gameObject);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        bool canAdd = BoxController.instance.AddItemToBoxStore(item);
+                        if (!canAdd)
+                        {
+                            LogController.instance.Log(MessageController.INVENTORY_FULL, gameObject);
+                            return;
+                        }
+                    }
+                    CloseActionBar();
+                    return;
+                }
+
                 if (equipmentTypes.Contains(item.GetItemType()))
                 {
                     if (!isEquipmentItem)
@@ -79,12 +106,20 @@ public class InventoryAction : MonoBehaviour
     {
         if (item != null)
         {
-            ItemType type = item.GetItemType();
             GameObject itemParent = item.transform.parent.gameObject;
+            ItemType type = item.GetItemType();
             bool isEquipmentItem = true;
-            if (itemParent.GetComponent<InventorySlot>() != null)
+            string currentSlotType = "";
+            if (itemParent.TryGetComponent<InventorySlot>(out var inventorySlot))
             {
                 isEquipmentItem = false;
+                currentSlotType = inventorySlot.currentTypeSlot;
+            }
+            if (CursorController.instance.GetCurrentCursorName() == MessageController.OPEN_BOX)
+            {
+                useBtnTxt.text = currentSlotType == MessageController.OPEN_BOX ? "Lấy ra" : "Cất vào";
+                removeBtn.gameObject.SetActive(false);
+                return;
             }
             bool show = false;
             if (equipmentTypes.Contains(type))
@@ -97,8 +132,8 @@ public class InventoryAction : MonoBehaviour
                 useBtnTxt.text = "Sử dụng";
                 show = true;
             }
-
             useBtn.gameObject.SetActive(show);
+            removeBtn.gameObject.SetActive(true);
         }
     }
     public void OnClickInventoryItem(InventoryItem newItem)
@@ -115,4 +150,5 @@ public class InventoryAction : MonoBehaviour
         item = null;
         CursorController.instance.OnClickInventoryItem(null);
     }
+
 }
