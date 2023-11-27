@@ -15,8 +15,8 @@ public class PickupItem : Interactible
 
     public void Pickup()
     {
-        bool canAdd = InventoryController.instance.AddItem(inventoryItem);
-        if (!canAdd)
+        int remain = InventoryController.instance.AddItem(inventoryItem);
+        if (remain == 1)
         {
             LogController.instance.Log("Can not pick up item!", gameObject);
         }

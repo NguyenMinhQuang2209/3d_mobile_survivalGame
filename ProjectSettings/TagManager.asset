@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Icons
   - Ground
+  - Box
   layers:
   - Default
   - TransparentFX

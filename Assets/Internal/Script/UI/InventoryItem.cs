@@ -27,7 +27,7 @@ public class InventoryItem : MonoBehaviour
         UpdateQuantityText();
         if (currentQuantity <= 0)
         {
-            Destroy(gameObject, 0.1f);
+            Destroy(gameObject, 0.01f);
         }
     }
     private void Start()

@@ -85,7 +85,7 @@ public class PlayerBuilding : MonoBehaviour
                     bool canRemove = InventoryController.instance.RemoveItem(buildingItem.inventoryItem, 1);
                     if (canRemove)
                     {
-                        Instantiate(buildingItem.building, currentPos, Quaternion.Euler(currentRot));
+                        Instantiate(buildingItem.building, currentPos, buildingPreviewItem.UseRotate() ? Quaternion.Euler(currentRot) : Quaternion.identity);
                         int remain = InventoryController.instance.GetQuantity(buildingItem.inventoryItem);
                         if (remain == 0)
                         {
@@ -94,12 +94,12 @@ public class PlayerBuilding : MonoBehaviour
                     }
                     else
                     {
-                        LogController.instance.Log("Can not remove in inventory!");
+                        LogController.instance.Log(MessageController.INVENTORY_REMOVE_ERROR);
                     }
                 }
                 else
                 {
-                    LogController.instance.Log("Can not build this object");
+                    LogController.instance.Log(MessageController.BUILDING_ERROR);
                 }
             }
         }

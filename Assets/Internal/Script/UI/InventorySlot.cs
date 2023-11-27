@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InventorySlot : MonoBehaviour
 {
+    [HideInInspector]
     public string currentTypeSlot = "";
     public void CloseInventoryActionBar()
     {

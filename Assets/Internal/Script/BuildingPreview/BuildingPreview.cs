@@ -11,9 +11,11 @@ public class BuildingPreview : MonoBehaviour
 
     [SerializeField] private bool useCollider = false;
     [SerializeField] private bool needCollider = false;
+    [SerializeField] private bool notUseRotate = false;
 
     private Renderer renderering;
-    private bool canBuilding = false;
+    private bool canBuilding = true;
+
     private void Start()
     {
         greenMaterial = ColorController.instance.GetMaterial(ColorName.Green);
@@ -47,5 +49,9 @@ public class BuildingPreview : MonoBehaviour
     public bool CanBuild()
     {
         return canBuilding;
+    }
+    public bool UseRotate()
+    {
+        return !notUseRotate;
     }
 }

@@ -421,3 +421,6 @@ MonoBehaviour:
   - prefab: {fileID: 3470601405007419964, guid: c10845f8e3708ba43b2e4301a5ad13a0,
       type: 3}
     growingTime: 0
+  collectingItem: {fileID: 7115697773496867591, guid: 03dc221d017b1ad4894933c1472ddeb6,
+    type: 3}
+  quantity: {x: 5, y: 10}

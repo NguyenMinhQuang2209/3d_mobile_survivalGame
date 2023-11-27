@@ -58,9 +58,9 @@ public class InventoryController : MonoBehaviour
         }
         return false;
     }
-    public bool AddItem(InventoryItem item, int quantity = 1)
+    public int AddItem(InventoryItem item, int quantity = 1)
     {
-        if (!item.UseStack() && IsFull()) return false;
+        if (!item.UseStack() && IsFull()) return quantity;
         GameObject inventory = CursorController.instance.inventoryContainer;
         foreach (Transform slot in inventory.transform)
         {
@@ -69,7 +69,7 @@ public class InventoryController : MonoBehaviour
                 InventoryItem newItem = Instantiate(item, slot.transform);
                 newItem.ChangeQuantity(quantity);
                 UpdateStock();
-                return true;
+                return 0;
             }
             else
             {
@@ -86,14 +86,14 @@ public class InventoryController : MonoBehaviour
                         if (remain == 0)
                         {
                             UpdateStock();
-                            return true;
+                            return 0;
                         }
                         quantity = remain;
                     }
                 }
             }
         }
-        return false;
+        return quantity;
     }
     public bool IsFull()
     {
