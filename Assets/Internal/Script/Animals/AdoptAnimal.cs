@@ -64,6 +64,13 @@ public class AdoptAnimal : ObjectHealth
     }
     private void Update()
     {
+        if (animalInteract != null && animalInteract.WasInteracting())
+        {
+            agent.enabled = false;
+            animator.SetFloat("Speed", 0f);
+            return;
+        }
+
         currentGrowingTime -= Time.deltaTime;
 
         if (agent.remainingDistance <= 0.1f)
@@ -104,6 +111,14 @@ public class AdoptAnimal : ObjectHealth
             if (animalInteract != null)
             {
                 animalInteract.promptMessage = growingList[currentGrowingState].periodName;
+            }
+        }
+        else
+        {
+            if (animalInteract != null)
+            {
+                animalInteract.promptMessage = MessageController.COLLECTING_MESSAGE;
+                animalInteract.InteractingObject();
             }
         }
     }
