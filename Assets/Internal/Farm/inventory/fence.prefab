@@ -387,7 +387,7 @@ MonoBehaviour:
   maxQuantity: 10
   currentQuantity: 2
   itemType: 7
-  itemName: fence
+  itemName: 27
   useItemNameToDisplay: 1
   displayName: "H\xE0ng r\xE0o"
   description: "D\xF9ng \u0111\u1EC3 ng\u0103n ch\u1EB7n \u0111\u1ED9ng v\u1EADt

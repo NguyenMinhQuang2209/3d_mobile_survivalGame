@@ -145,9 +145,9 @@ public class InventoryController : MonoBehaviour
                         if (childItemInventory.GetItemName() == itemName)
                         {
                             int remain = childItemInventory.MinusItem(removeQuantity * -1);
+                            UpdateStock();
                             if (remain == 0)
                             {
-                                UpdateStock();
                                 return true;
                             }
                             removeQuantity = remain * -1;

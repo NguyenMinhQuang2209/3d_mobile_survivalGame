@@ -251,9 +251,9 @@ MonoBehaviour:
   quantityTxt: {fileID: 3754436351330364457}
   useStack: 1
   maxQuantity: 10
-  currentQuantity: 2
+  currentQuantity: 1
   itemType: 7
-  itemName: box_multiple
+  itemName: 29
   useItemNameToDisplay: 1
   displayName: "H\u1ED9p \u0111a chi\u1EC1u"
   description: "D\xF9ng \u0111\u1EC3 \u0111\u1EF1ng v\u1EADt ph\u1EA9m \u0111a chi\u1EC1u"

@@ -177,7 +177,7 @@ MonoBehaviour:
   maxQuantity: 10
   currentQuantity: 1
   itemType: 7
-  itemName: farmTile
+  itemName: 26
   useItemNameToDisplay: 1
   displayName: "B\u1EC7 tr\u1ED3ng c\xE2y"
   description: "D\xF9ng cho vi\u1EC7c tr\u1ED3ng tr\u1ECDt"
