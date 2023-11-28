@@ -386,7 +386,7 @@ MonoBehaviour:
   maxQuantity: 10
   currentQuantity: 5
   itemType: 8
-  itemName: pumpkinCollect
+  itemName: 16
   useItemNameToDisplay: 0
   displayName: "B\xED ng\xF4"
   description: "D\xF9ng \u0111\u1EC3 h\u1ED3i ph\u1EE5c n\u0103ng l\u01B0\u1EE3ng"

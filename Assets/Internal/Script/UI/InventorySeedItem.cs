@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class InventorySeedItem : MonoBehaviour
 {
-    public PreItemType preItemType;
-    public PreItemName preItemName;
 
     [SerializeField] private bool useSameTime = false;
     [Tooltip("Only using for usesametime = true")]

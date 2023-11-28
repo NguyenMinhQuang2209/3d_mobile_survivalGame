@@ -249,10 +249,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quantityTxt: {fileID: 1352447290805771156}
   useStack: 1
-  maxQuantity: 10
+  maxQuantity: 2
   currentQuantity: 1
   itemType: 8
-  itemName: apple
+  itemName: 1
   useItemNameToDisplay: 0
   displayName: "T\xE1o"
   description: "\u0102n \u0111\u1EC3 h\u1ED3i ph\u1EE5c m\xE1u c\u0169ng nh\u01B0

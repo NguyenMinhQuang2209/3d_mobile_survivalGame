@@ -177,7 +177,7 @@ MonoBehaviour:
   maxQuantity: 20
   currentQuantity: 1
   itemType: 11
-  itemName: ferilizer
+  itemName: 33
   useItemNameToDisplay: 1
   displayName: "Ph\xE2n b\xF3n"
   description: "D\xF9ng \u0111\u1EC3 b\xF3n cho c\xE2y"

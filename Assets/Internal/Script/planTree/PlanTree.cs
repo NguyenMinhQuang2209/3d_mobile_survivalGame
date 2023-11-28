@@ -88,7 +88,7 @@ public class PlanTree : Interactible
             GameObject handHolding = EquipmentController.instance.GetEquipmentObject(EquipmentType.Hand);
             if (handHolding != null && handHolding.TryGetComponent<InventoryItem>(out var inventoryItem) && handHolding.TryGetComponent<InventorySeedItem>(out var seedItem))
             {
-                GameObject pre = PrefabController.instance.GetGameObject(seedItem.preItemType, seedItem.preItemName);
+                GameObject pre = PrefabController.instance.GetGameObject(inventoryItem.GetItemType(), inventoryItem.GetItemName());
                 if (pre != null && pre.TryGetComponent<InventorySeedItem>(out var seedItemPre))
                 {
                     int remain = inventoryItem.GetCurrentQuantity();

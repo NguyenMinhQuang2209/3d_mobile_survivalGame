@@ -387,7 +387,7 @@ MonoBehaviour:
   maxQuantity: 10
   currentQuantity: 1
   itemType: 10
-  itemName: wheatSeed
+  itemName: 32
   useItemNameToDisplay: 0
   displayName: "H\u1EA1t g\u1EA1o"
   description: "D\xF9ng \u0111\u1EC3 tr\u1ED3ng l\xFAa"

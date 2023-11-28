@@ -14,7 +14,7 @@ public class InventoryItem : MonoBehaviour
 
     [Space(20)]
     [SerializeField] private ItemType itemType;
-    [SerializeField] private string itemName = string.Empty;
+    [SerializeField] private ItemName itemName;
 
     [Space(10)]
     [SerializeField] private bool useItemNameToDisplay = false;
@@ -34,7 +34,7 @@ public class InventoryItem : MonoBehaviour
     {
         if (useItemNameToDisplay)
         {
-            displayName = itemName;
+            displayName = itemName.ToString();
         }
     }
     public void UpdateQuantityText()
@@ -80,7 +80,7 @@ public class InventoryItem : MonoBehaviour
     {
         return itemType;
     }
-    public string GetItemName()
+    public ItemName GetItemName()
     {
         return itemName;
     }

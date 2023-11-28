@@ -17,7 +17,7 @@ public class PrefabController : MonoBehaviour
         }
         instance = this;
     }
-    public GameObject GetGameObject(PreItemType itemType, PreItemName itemName)
+    public GameObject GetGameObject(ItemType itemType, ItemName itemName)
     {
         foreach (var item in prefabTypeObjects)
         {
@@ -32,7 +32,7 @@ public class PrefabController : MonoBehaviour
         }
         return null;
     }
-    public List<PrefabObject> GetGameObject(PreItemType itemType)
+    public List<PrefabObject> GetGameObject(ItemType itemType)
     {
         foreach (var item in prefabTypeObjects)
         {
@@ -43,7 +43,7 @@ public class PrefabController : MonoBehaviour
         }
         return null;
     }
-    public GameObject GetGameObject(PreItemName itemName)
+    public GameObject GetGameObject(ItemName itemName)
     {
         foreach (var item in prefabTypeObjects)
         {
@@ -64,7 +64,7 @@ public class PrefabController : MonoBehaviour
 [System.Serializable]
 public class PrefabTypeObject
 {
-    public PreItemType itemType;
+    public ItemType itemType;
     public List<PrefabObject> prefabObjects = new();
 }
 
@@ -73,5 +73,5 @@ public class PrefabTypeObject
 public class PrefabObject
 {
     public GameObject prefab;
-    public PreItemName itemName;
+    public ItemName itemName;
 }

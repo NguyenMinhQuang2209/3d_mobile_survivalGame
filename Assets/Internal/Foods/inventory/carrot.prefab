@@ -386,7 +386,7 @@ MonoBehaviour:
   maxQuantity: 10
   currentQuantity: 1
   itemType: 8
-  itemName: carrot
+  itemName: 7
   useItemNameToDisplay: 1
   displayName: 
   description: "\u0102n \u0111\u1EC3 h\u1ED3i ph\u1EE5c m\xE1u c\u0169ng nh\u01B0

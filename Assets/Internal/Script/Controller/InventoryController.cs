@@ -126,13 +126,13 @@ public class InventoryController : MonoBehaviour
             }
         }
     }
-    private void UpdateStock(string itemName, int quantity)
+    private void UpdateStock(ItemName itemName, int quantity)
     {
-        stock[itemName] = stock.ContainsKey(itemName) ? stock[itemName] + quantity : quantity;
+        stock[itemName.ToString()] = stock.ContainsKey(itemName.ToString()) ? stock[itemName.ToString()] + quantity : quantity;
     }
-    public bool RemoveItem(string itemName, int removeQuantity = 1)
+    public bool RemoveItem(ItemName itemName, int removeQuantity = 1)
     {
-        if (stock.ContainsKey(itemName) && stock[itemName] >= removeQuantity)
+        if (stock.ContainsKey(itemName.ToString()) && stock[itemName.ToString()] >= removeQuantity)
         {
             GameObject inventory = CursorController.instance.inventoryContainer;
             foreach (Transform slot in inventory.transform)
@@ -162,9 +162,9 @@ public class InventoryController : MonoBehaviour
     {
         return RemoveItem(item.GetItemName(), removeQuantity);
     }
-    public int GetQuantity(string itemName)
+    public int GetQuantity(ItemName itemName)
     {
-        return stock.ContainsKey(itemName) ? stock[itemName] : 0;
+        return stock.ContainsKey(itemName.ToString()) ? stock[itemName.ToString()] : 0;
     }
     public int GetQuantity(InventoryItem item)
     {

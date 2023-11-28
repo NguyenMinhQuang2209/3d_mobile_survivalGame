@@ -311,7 +311,7 @@ MonoBehaviour:
   maxQuantity: 10
   currentQuantity: 1
   itemType: 11
-  itemName: water
+  itemName: 34
   useItemNameToDisplay: 1
   displayName: "B\xECnh t\u01B0\u1EDBi c\xE2y"
   description: "D\xF9ng \u0111\u1EC3 t\u01B0\u1EDBi c\xE2y"
