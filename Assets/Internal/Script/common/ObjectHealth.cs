@@ -1,18 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectHealth : MonoBehaviour
+public abstract class ObjectHealth : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private int maxHealth = 100;
+    int currentHealth = 0;
+    private void Start()
     {
-        
+        currentHealth = maxHealth;
     }
-
-    // Update is called once per frame
-    void Update()
+    public bool BaseTakeDamage(int damage)
     {
-        
+        return TakeDamage(damage);
+    }
+    public virtual bool TakeDamage(int damage)
+    {
+        currentHealth = Mathf.Max(0, currentHealth - damage);
+        return currentHealth == 0;
     }
 }

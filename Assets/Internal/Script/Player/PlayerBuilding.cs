@@ -86,6 +86,7 @@ public class PlayerBuilding : MonoBehaviour
                     if (canRemove)
                     {
                         Instantiate(buildingItem.building, currentPos, buildingPreviewItem.UseRotate() ? Quaternion.Euler(currentRot) : Quaternion.identity);
+                        currentPos += Vector3.left;
                         int remain = InventoryController.instance.GetQuantity(buildingItem.inventoryItem);
                         if (remain == 0)
                         {
