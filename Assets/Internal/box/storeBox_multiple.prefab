@@ -122,4 +122,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptMessage: "H\u1ED9p \u0111a chi\u1EC1u"
   useEvent: 0
+  canInteract: 1
   slots: {x: 5, y: 24}

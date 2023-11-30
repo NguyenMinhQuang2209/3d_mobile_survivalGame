@@ -6,6 +6,7 @@ public abstract class Interactible : MonoBehaviour
 {
     public string promptMessage;
     public bool useEvent;
+    public bool canInteract = true;
     public void BaseInteract()
     {
         Interact();

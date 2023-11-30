@@ -18,4 +18,9 @@ public class MessageController : MonoBehaviour
 
     // Fail in building
     public static string BUILDING_ERROR = "Không thể đặt vật phẩm tại đây!";
+
+
+    //Following animal mode
+    public static string PROTECT = "PROTECT";
+    public static string ATTACK = "ATTACK";
 }

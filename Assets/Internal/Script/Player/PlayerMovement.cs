@@ -91,15 +91,18 @@ public class PlayerMovement : MonoBehaviour
             if (hit[0].gameObject.TryGetComponent<Interactible>(out var interactible))
             {
                 HandIconManager.instance.ChangeInteractingState(HandIconManager.INTERACING_STATE);
-                interactibleTarget = interactible;
+                if (interactible.canInteract)
+                {
+                    interactibleTarget = interactible;
+                }
                 Vector3 screenPos = Camera.main.WorldToScreenPoint(hit[0].transform.position);
                 Vector3 offset = Vector3.zero;
-                if (interactibleTarget.TryGetComponent<Offset>(out var targetOffset))
+                if (interactible.TryGetComponent<Offset>(out var targetOffset))
                 {
                     offset.y = targetOffset.interactOffsetY;
                     offset.x = targetOffset.interactOffsetX;
                 }
-                InteractController.instance.ChangeInteractText(interactibleTarget.promptMessage, screenPos + offset);
+                InteractController.instance.ChangeInteractText(interactible.promptMessage, screenPos + offset);
             }
             else
             {
