@@ -23,4 +23,7 @@ public class MessageController : MonoBehaviour
     //Following animal mode
     public static string PROTECT = "PROTECT";
     public static string ATTACK = "ATTACK";
+
+    // Coin
+    public static string LACK_OF_COIN = "Thiếu coin!";
 }

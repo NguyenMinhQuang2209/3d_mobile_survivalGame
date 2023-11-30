@@ -73,3 +73,10 @@ public enum ColorName
     Pink,
     Blur_Green,
 }
+public enum GrowingType
+{
+    Health,
+    Speed,
+    Damage,
+    TimeBwtAttack
+}
