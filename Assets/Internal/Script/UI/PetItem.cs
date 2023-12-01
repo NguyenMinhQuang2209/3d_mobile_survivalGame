@@ -46,4 +46,10 @@ public class PetItem : MonoBehaviour
     {
         PetAction.instance.ChangePetItem(this);
     }
+    public void ChangeInfor()
+    {
+        int level = followingAnimal.GetPetLevel();
+        hpTxt.text = "HP: " + followingAnimal.GetHealthTxt();
+        levelTxt.text = level == -1 ? "Level: Max" : "Level: " + level;
+    }
 }

@@ -80,3 +80,9 @@ public enum GrowingType
     Damage,
     TimeBwtAttack
 }
+public enum EnemyType
+{
+    No_Attack,
+    Attack_When_See,
+    Attack_When_Was_Hitted
+}

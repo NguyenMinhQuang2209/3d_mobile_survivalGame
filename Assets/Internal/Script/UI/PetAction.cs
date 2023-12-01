@@ -85,6 +85,7 @@ public class PetAction : MonoBehaviour
             bool updateState = pet.UpgradeLevel();
             if (updateState)
             {
+                currentPetItem.ChangeInfor();
                 ChangePetItem(currentPetItem);
             }
         }

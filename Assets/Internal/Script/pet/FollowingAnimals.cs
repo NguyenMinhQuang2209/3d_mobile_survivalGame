@@ -212,6 +212,7 @@ public class FollowingAnimals : ObjectHealth
             {
                 currentGrowingProgess += 1;
                 UpdatePlusValue();
+                ChangePlusHealth(plusHealth);
                 return true;
             }
             else
