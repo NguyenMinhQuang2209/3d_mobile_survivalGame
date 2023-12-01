@@ -11,6 +11,7 @@ public class PetAction : MonoBehaviour
     [SerializeField] private Button stateBtn;
     [SerializeField] private TextMeshProUGUI stateTxt;
     [SerializeField] private Button upgradeBtn;
+    [SerializeField] private TextMeshProUGUI upgradeTxt;
     [SerializeField] private Button closeBtn;
 
     [SerializeField] private GameObject petActionContainer;
@@ -35,7 +36,7 @@ public class PetAction : MonoBehaviour
         });
         upgradeBtn.onClick.AddListener(() =>
         {
-
+            UpgradePet();
         });
         closeBtn.onClick.AddListener(() =>
         {
@@ -58,6 +59,8 @@ public class PetAction : MonoBehaviour
                 + "Tốc độ: " + pet.GetSpeed() + "\n"
                 + "Attack Time: " + pet.GetTimeBwtAttack();
             levelTxt.text = level == -1 ? "Level: Max" : "Level: " + level;
+            upgradeTxt.text = "Nâng cấp \n(" + pet.GetNextPrice() + ")";
+            upgradeBtn.gameObject.SetActive(level != -1);
         }
     }
     public void ChangeMode()
@@ -72,6 +75,18 @@ public class PetAction : MonoBehaviour
                 + "Damage: " + pet.GetDamage() + "\n"
                 + "Tốc độ: " + pet.GetSpeed() + "\n"
                 + "Attack Time: " + pet.GetTimeBwtAttack();
+        }
+    }
+    public void UpgradePet()
+    {
+        if (currentPetItem != null)
+        {
+            FollowingAnimals pet = currentPetItem.GetFollowingAnimal();
+            bool updateState = pet.UpgradeLevel();
+            if (updateState)
+            {
+                ChangePetItem(currentPetItem);
+            }
         }
     }
 }

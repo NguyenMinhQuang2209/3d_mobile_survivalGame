@@ -30,4 +30,8 @@ public abstract class ObjectHealth : MonoBehaviour
     {
         return currentHealth + "/" + (maxHealth + plusHealthObject);
     }
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
 }

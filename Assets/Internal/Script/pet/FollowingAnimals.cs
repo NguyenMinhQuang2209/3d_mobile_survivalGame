@@ -200,7 +200,7 @@ public class FollowingAnimals : ObjectHealth
         }
         return null;
     }
-    public void UpgradeLevel()
+    public bool UpgradeLevel()
     {
         FollowingAnimalGrowing nextProgress = NextProgress();
         if (nextProgress != null)
@@ -212,13 +212,14 @@ public class FollowingAnimals : ObjectHealth
             {
                 currentGrowingProgess += 1;
                 UpdatePlusValue();
+                return true;
             }
             else
             {
                 LogController.instance.Log(MessageController.LACK_OF_COIN);
             }
-
         }
+        return false;
     }
     private void UpdatePlusValue()
     {
@@ -270,6 +271,10 @@ public class FollowingAnimals : ObjectHealth
     public void WasPet(bool v)
     {
         wasPet = v;
+    }
+    public string GetNextPrice()
+    {
+        return currentGrowingProgess <= growings.Count - 1 ? growings[currentGrowingProgess].price + " coins" : "";
     }
 }
 [System.Serializable]

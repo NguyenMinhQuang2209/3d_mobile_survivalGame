@@ -1031,7 +1031,7 @@ MonoBehaviour:
   attackMask:
     serializedVersion: 2
     m_Bits: 0
-  showAttackCircle: 1
+  showAttackCircle: 0
   useAttackInFirstFrame: 1
   petName: "V\u1ECBt"
   petSprite: {fileID: 21300000, guid: a44d7e6618020b2489a1a56ccae28478, type: 3}

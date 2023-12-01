@@ -20,7 +20,10 @@ public class PetController : MonoBehaviour
 
     public void AddPet(FollowingAnimals newPet)
     {
-        pets.Add(newPet);
+        if (!pets.Contains(newPet))
+        {
+            pets.Add(newPet);
+        }
     }
     public void RemovePet(FollowingAnimals pet)
     {
