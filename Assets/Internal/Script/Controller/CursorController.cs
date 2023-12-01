@@ -35,6 +35,12 @@ public class CursorController : MonoBehaviour
     [Header("Trash")]
     public Transform trashUI;
 
+    [Header("Pet UI")]
+    public GameObject parentPetContainer;
+    public GameObject petContainer;
+    public PetItem petItem;
+    public PetAction petAction;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -75,6 +81,15 @@ public class CursorController : MonoBehaviour
         OnChangeCursorName(MessageController.OPEN_INVENTORY, new() { parentInventoryContainer });
         OnClickInventoryItem(null);
     }
+
+    public void InteractWithPet()
+    {
+        OnChangeCursorName(MessageController.OPEN_PET_UI, new() { parentPetContainer });
+        PetController.instance.SpawnPetItem();
+        PetAction.instance.ChangePetItem(null);
+    }
+
+
     public void InteractWithBox(Transform newObject, int slot, List<InventoryItem> inventoryItems = null)
     {
         OnChangeCursorName(MessageController.OPEN_BOX, new() { boxContainer, parentInventoryContainer });
@@ -156,5 +171,6 @@ public class CursorController : MonoBehaviour
     {
         OnChangeCursorName("", null);
         OnClickInventoryItem(null);
+        PetAction.instance.ChangePetItem(null);
     }
 }

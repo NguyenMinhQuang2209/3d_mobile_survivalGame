@@ -26,4 +26,8 @@ public abstract class ObjectHealth : MonoBehaviour
     {
         plusHealthObject = v;
     }
+    public string GetHealthTxt()
+    {
+        return currentHealth + "/" + (maxHealth + plusHealthObject);
+    }
 }

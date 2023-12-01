@@ -20,10 +20,6 @@ public class FollowingAnimals : ObjectHealth
     [Header("Attack config")]
     [SerializeField] private float damage = 1f;
     [SerializeField] private int maxAttackAmount = 1;
-    [SerializeField] private float attackRadious = 5f;
-    [SerializeField] private float attackDistance = 1f;
-    [SerializeField] private bool objectRadiousCircle = false;
-    [SerializeField] private bool objectAttackOffsetCircle = false;
 
     [Header("Attack Advance")]
     [SerializeField] private float timeBwtAttack = 1f;
@@ -31,10 +27,14 @@ public class FollowingAnimals : ObjectHealth
     [SerializeField] private Transform attackPos;
     [SerializeField] private float attackPosRadious = 1f;
     [SerializeField] private LayerMask attackMask;
+    [SerializeField] private bool showAttackCircle = false;
 
     [SerializeField] private bool useAttackInFirstFrame = true;
 
+    [Header("Pet config")]
+    public string petName = "";
     string currentMode = "";
+    public Sprite petSprite;
 
     [Space(20)]
     [Header("Upgrade level")]
@@ -110,6 +110,10 @@ public class FollowingAnimals : ObjectHealth
         animator.SetFloat("Speed", speedAnimator);
 
     }
+    public string GetCurrentMode()
+    {
+        return currentMode;
+    }
     private void BaseAttacking()
     {
         currentTimeBwtAttack = 0f;
@@ -141,15 +145,11 @@ public class FollowingAnimals : ObjectHealth
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        if (objectRadiousCircle)
+        if (showAttackCircle)
         {
-            Gizmos.DrawWireSphere(transform.position, stopDitance);
+            Gizmos.DrawWireSphere(attackPos.position, attackPosRadious);
         }
 
-        if (objectAttackOffsetCircle)
-        {
-            Gizmos.DrawWireSphere(transform.position, stopDitance + attackDistance);
-        }
     }
     public FollowingAnimalGrowing NextProgress()
     {
@@ -207,6 +207,24 @@ public class FollowingAnimals : ObjectHealth
                     break;
             }
         }
+    }
+
+    public int GetPetLevel()
+    {
+        return currentGrowingProgess <= growings.Count - 1 ? currentGrowingProgess : -1;
+    }
+
+    public float GetDamage()
+    {
+        return damage + plusDamage;
+    }
+    public float GetSpeed()
+    {
+        return walkSpeed + plusSpeed;
+    }
+    public float GetTimeBwtAttack()
+    {
+        return timeBwtAttack + plusTimeBwtAttack;
     }
 }
 [System.Serializable]
