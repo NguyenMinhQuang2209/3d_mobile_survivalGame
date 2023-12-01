@@ -34,6 +34,7 @@ public class AdoptAnimal : ObjectHealth
 
     private void Start()
     {
+        MyInitialized();
         animator = GetComponent<Animator>();
         currentSpeed = walkSpeed;
         if (TryGetComponent<NavMeshAgent>(out agent))

@@ -11,22 +11,20 @@ public class PetInteract : Interactible
     private void Start()
     {
         followingAnimals = GetComponent<FollowingAnimals>();
-        if (!wasPet)
-        {
-            followingAnimals.enabled = false;
-            canInteract = true;
-        }
-        else
-        {
-            followingAnimals.enabled = true;
-            canInteract = false;
-        }
+        followingAnimals.WasPet(wasPet);
     }
     public override void Interact()
     {
         wasPet = true;
         canInteract = false;
-        followingAnimals.enabled = true;
+        followingAnimals.WasPet(wasPet);
+        PetController.instance.AddPet(followingAnimals);
+    }
+    public void BuyPet()
+    {
+        wasPet = true;
+        canInteract = false;
+        followingAnimals.WasPet(wasPet);
         PetController.instance.AddPet(followingAnimals);
     }
 }

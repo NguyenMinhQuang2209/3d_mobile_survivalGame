@@ -12,6 +12,8 @@ public class PetAction : MonoBehaviour
     [SerializeField] private TextMeshProUGUI stateTxt;
     [SerializeField] private Button upgradeBtn;
     [SerializeField] private Button closeBtn;
+
+    [SerializeField] private GameObject petActionContainer;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -26,10 +28,10 @@ public class PetAction : MonoBehaviour
     private PetItem currentPetItem = null;
     private void Start()
     {
-        gameObject.SetActive(false);
+        petActionContainer.SetActive(false);
         stateBtn.onClick.AddListener(() =>
         {
-
+            ChangeMode();
         });
         upgradeBtn.onClick.AddListener(() =>
         {
@@ -42,23 +44,34 @@ public class PetAction : MonoBehaviour
     }
     public void ChangePetItem(PetItem newItem = null)
     {
-        if (currentPetItem == newItem)
-        {
-            return;
-        }
         currentPetItem = newItem;
-        gameObject.SetActive(currentPetItem != null);
+        petActionContainer.SetActive(currentPetItem != null);
         if (currentPetItem != null)
         {
             FollowingAnimals pet = currentPetItem.GetFollowingAnimal();
             int level = pet.GetPetLevel();
-            nameTxt.text = pet.name;
+            nameTxt.text = pet.petName;
+            stateTxt.text = pet.GetNextMode();
             inforTxt.text = "Trạng thái: " + pet.GetCurrentMode() + "\n"
                 + "Máu:" + pet.GetHealthTxt() + "\n"
                 + "Damage: " + pet.GetDamage() + "\n"
                 + "Tốc độ: " + pet.GetSpeed() + "\n"
                 + "Attack Time: " + pet.GetTimeBwtAttack();
             levelTxt.text = level == -1 ? "Level: Max" : "Level: " + level;
+        }
+    }
+    public void ChangeMode()
+    {
+        if (currentPetItem != null)
+        {
+            FollowingAnimals pet = currentPetItem.GetFollowingAnimal();
+            pet.ChangeMode();
+            stateTxt.text = pet.GetNextMode();
+            inforTxt.text = "Trạng thái: " + pet.GetCurrentMode() + "\n"
+                + "Máu:" + pet.GetHealthTxt() + "\n"
+                + "Damage: " + pet.GetDamage() + "\n"
+                + "Tốc độ: " + pet.GetSpeed() + "\n"
+                + "Attack Time: " + pet.GetTimeBwtAttack();
         }
     }
 }

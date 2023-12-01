@@ -29,7 +29,7 @@ public class PetItem : MonoBehaviour
             wasUpdate = true;
             int level = followingAnimal.GetPetLevel();
             petImg.sprite = followingAnimal.petSprite;
-            nameTxt.text = followingAnimal.name;
+            nameTxt.text = followingAnimal.petName;
             hpTxt.text = "HP: " + followingAnimal.GetHealthTxt();
             levelTxt.text = level == -1 ? "Level: Max" : "Level: " + level;
         }

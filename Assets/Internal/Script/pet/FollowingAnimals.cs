@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -23,7 +23,7 @@ public class FollowingAnimals : ObjectHealth
 
     [Header("Attack Advance")]
     [SerializeField] private float timeBwtAttack = 1f;
-    float currentTimeBwtAttack = 0f;
+    private float currentTimeBwtAttack = 0f;
     [SerializeField] private Transform attackPos;
     [SerializeField] private float attackPosRadious = 1f;
     [SerializeField] private LayerMask attackMask;
@@ -40,21 +40,29 @@ public class FollowingAnimals : ObjectHealth
     [Header("Upgrade level")]
     [SerializeField] private List<FollowingAnimalGrowing> growings = new();
 
-    int plusHealth = 0;
-    float plusDamage = 0f;
-    float plusSpeed = 0f;
-    float plusTimeBwtAttack = 0f;
-
-    int currentGrowingProgess = 0;
-
+    private int plusHealth = 0;
+    private float plusDamage = 0f;
+    private float plusSpeed = 0f;
+    private float plusTimeBwtAttack = 0f;
+    private int currentGrowingProgess = 0;
     private Transform player;
+    private Transform target = null;
 
-    Transform target = null;
+
+    [Header("Not pet state")]
+    private bool wasPet = false;
+    [SerializeField] private Vector2 patrolRandomX;
+    [SerializeField] private Vector2 patrolRandomZ;
+    [SerializeField] private float patrolWaitTime = 2f;
+    float currentPatrolWaitTime = 0f;
 
     private void Start()
     {
+        MyInitialized();
+
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+
 
         currentMode = MessageController.PROTECT;
 
@@ -64,55 +72,88 @@ public class FollowingAnimals : ObjectHealth
     }
     private void Update()
     {
-        ChangePlusHealth(plusHealth);
         float currentSpeed = walkSpeed + plusSpeed;
         float speedAnimator = walkSpeed;
-        currentTimeBwtAttack += Time.deltaTime;
-        if (target != null)
+        if (!wasPet)
         {
-            if (agent.remainingDistance <= stopDitance)
+            if (agent.remainingDistance <= 0.1f)
             {
                 currentSpeed = 0f;
                 speedAnimator = 0f;
-                if (currentTimeBwtAttack >= timeBwtAttack - plusTimeBwtAttack)
-                {
-                    BaseAttacking();
-                }
-            }
-            else
-            {
-                currentSpeed = runSpeed + plusSpeed;
-                speedAnimator = runSpeed;
-                agent.SetDestination(target.position);
+                PatrolState();
             }
         }
         else
         {
-            float distance = Vector3.Distance(transform.position, player.position);
-            if (distance <= stopPlayerDistance)
+            ChangePlusHealth(plusHealth);
+            currentTimeBwtAttack += Time.deltaTime;
+            if (target != null)
             {
-                agent.SetDestination(transform.position);
-                currentSpeed = 0f;
-                speedAnimator = 0f;
-            }
-            else
-            {
-                if (distance >= runDistance)
+                if (agent.remainingDistance <= stopDitance)
+                {
+                    currentSpeed = 0f;
+                    speedAnimator = 0f;
+                    if (currentTimeBwtAttack >= timeBwtAttack - plusTimeBwtAttack)
+                    {
+                        BaseAttacking();
+                    }
+                }
+                else
                 {
                     currentSpeed = runSpeed + plusSpeed;
                     speedAnimator = runSpeed;
+                    agent.SetDestination(target.position);
                 }
-                agent.SetDestination(player.position);
             }
+            else
+            {
+                float distance = Vector3.Distance(transform.position, player.position);
+                if (distance <= stopPlayerDistance)
+                {
+                    agent.SetDestination(transform.position);
+                    currentSpeed = 0f;
+                    speedAnimator = 0f;
+                }
+                else
+                {
+                    if (distance >= runDistance)
+                    {
+                        currentSpeed = runSpeed + plusSpeed;
+                        speedAnimator = runSpeed;
+                    }
+                    agent.SetDestination(player.position);
+                }
 
+            }
         }
         agent.speed = currentSpeed;
         animator.SetFloat("Speed", speedAnimator);
 
     }
+
+    private void PatrolState()
+    {
+        currentPatrolWaitTime += Time.deltaTime;
+        if (currentPatrolWaitTime >= patrolWaitTime)
+        {
+            currentPatrolWaitTime = 0f;
+            float ranX = Random.Range(Mathf.Min(patrolRandomX.x, patrolRandomX.y), Mathf.Max(patrolRandomX.x, patrolRandomX.y));
+            float ranZ = Random.Range(Mathf.Min(patrolRandomZ.x, patrolRandomZ.y), Mathf.Max(patrolRandomZ.x, patrolRandomZ.y));
+            Vector3 target = transform.position + new Vector3(ranX, 0f, ranZ);
+            agent.SetDestination(target);
+        }
+    }
     public string GetCurrentMode()
     {
-        return currentMode;
+        return currentMode == MessageController.PROTECT ? "Phòng thủ" : "Tấn công";
+    }
+    public string GetNextMode()
+    {
+        return currentMode != MessageController.PROTECT ? "Phòng thủ" : "Tấn công";
+    }
+    public void ChangeMode()
+    {
+        currentMode = currentMode == MessageController.PROTECT ? MessageController.ATTACK : MessageController.PROTECT;
     }
     private void BaseAttacking()
     {
@@ -225,6 +266,10 @@ public class FollowingAnimals : ObjectHealth
     public float GetTimeBwtAttack()
     {
         return timeBwtAttack + plusTimeBwtAttack;
+    }
+    public void WasPet(bool v)
+    {
+        wasPet = v;
     }
 }
 [System.Serializable]

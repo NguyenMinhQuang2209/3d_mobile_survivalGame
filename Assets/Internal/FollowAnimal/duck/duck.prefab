@@ -1036,6 +1036,9 @@ MonoBehaviour:
   petName: "V\u1ECBt"
   petSprite: {fileID: 21300000, guid: a44d7e6618020b2489a1a56ccae28478, type: 3}
   growings: []
+  patrolRandomX: {x: -5, y: 5}
+  patrolRandomZ: {x: -5, y: 5}
+  patrolWaitTime: 2
 --- !u!114 &4620142328305687428
 MonoBehaviour:
   m_ObjectHideFlags: 0

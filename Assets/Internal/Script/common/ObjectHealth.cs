@@ -5,7 +5,7 @@ public abstract class ObjectHealth : MonoBehaviour
     [SerializeField] private int maxHealth = 100;
     int currentHealth = 0;
     int plusHealthObject = 0;
-    private void Start()
+    protected void MyInitialized()
     {
         currentHealth = maxHealth + plusHealthObject;
     }
