@@ -162,6 +162,18 @@ public class Enemy : ObjectHealth
             }
         }
     }
+    public override bool TakeDamage(int damage, GameObject hittedBy)
+    {
+        bool v = base.TakeDamage(damage, hittedBy);
+        if (enemyType != EnemyType.No_Attack)
+        {
+            if (target == null)
+            {
+                target = hittedBy.transform;
+            }
+        }
+        return v;
+    }
     public void Attack()
     {
         if (attackPos != null)

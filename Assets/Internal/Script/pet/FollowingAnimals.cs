@@ -167,6 +167,16 @@ public class FollowingAnimals : ObjectHealth
             Attack();
         }
     }
+
+    public override bool TakeDamage(int damage, GameObject hittedBy)
+    {
+        bool v = base.TakeDamage(damage, hittedBy);
+        if (target == null)
+        {
+            target = hittedBy.transform;
+        }
+        return v;
+    }
     public void Attack()
     {
         Collider[] hits = Physics.OverlapSphere(attackPos.position, attackPosRadious, attackMask);

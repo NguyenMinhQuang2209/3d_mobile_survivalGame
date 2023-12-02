@@ -18,6 +18,10 @@ public abstract class ObjectHealth : MonoBehaviour
         currentHealth = Mathf.Max(0, currentHealth + plusHealthObject - damage);
         return currentHealth == 0;
     }
+    public virtual bool TakeDamage(int damage, GameObject hittedBy)
+    {
+        return TakeDamage(damage);
+    }
     public int GetMaxHealth()
     {
         return maxHealth + plusHealthObject;
