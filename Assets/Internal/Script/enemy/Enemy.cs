@@ -1,6 +1,8 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.Progress;
 
 public class Enemy : ObjectHealth
 {
@@ -40,10 +42,27 @@ public class Enemy : ObjectHealth
     float currentFrame = 0f;
     Transform target = null;
 
+    [Space(20)]
+    [Header("See enemy config")]
+    [SerializeField] private float sawAngle = 80f;
+    [SerializeField] private float sawDistance = 10f;
+    [SerializeField] private float chaseMaxDistance = 20f;
+
+    [Space(10)]
+    [Header("Rotate when catch")]
+    [SerializeField] private float rotateAngle = 10f;
+    [SerializeField] private float rotateSpeed = 10f;
+    Transform player = null;
+    GameObject[] pets = null;
+
+    bool attacking = false;
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        player = GameObject.FindGameObjectWithTag(TagController.PLAYER_TAG).transform;
+        pets = GameObject.FindGameObjectsWithTag(TagController.PET_TAG);
 
         defaultPlace = transform.position;
     }
@@ -56,6 +75,17 @@ public class Enemy : ObjectHealth
         }
         else
         {
+            if (enemyType == EnemyType.Attack_When_See)
+            {
+                SeeEnemies(player);
+                if (target != null)
+                {
+                    foreach (GameObject pet in pets)
+                    {
+                        SeeEnemies(pet.transform);
+                    }
+                }
+            }
             if (agent.remainingDistance <= 0.1f)
             {
                 currentSpeed = 0f;
@@ -75,7 +105,6 @@ public class Enemy : ObjectHealth
 
     private void PatrolState()
     {
-
         currentWaitTime = 0f;
         float ranX = Random.Range(Mathf.Min(ranXPos.x, ranXPos.y), Mathf.Max(ranXPos.x, ranXPos.y));
         float ranZ = Random.Range(Mathf.Min(ranZPos.x, ranZPos.y), Mathf.Max(ranZPos.x, ranZPos.y));
@@ -92,27 +121,45 @@ public class Enemy : ObjectHealth
     }
     private void AttackState()
     {
-        currentTimeBwtAttack += Time.deltaTime;
-        if (currentTimeBwtAttack >= timeBwtAttack)
+        if (attacking)
         {
-            currentTimeBwtAttack = 0f;
             currentFrame += Time.deltaTime;
             if (attackByCustomFrame && currentFrame >= attackInFrame)
             {
                 currentFrame = 0f;
+                attacking = false;
                 Attack();
             }
         }
-
-        if (agent.remainingDistance <= attackStopDistance)
+        currentTimeBwtAttack += Time.deltaTime;
+        float distance = Vector3.Distance(transform.position, target.position);
+        if (distance <= attackStopDistance)
         {
             currentSpeed = 0f;
             agent.SetDestination(transform.position);
+            Vector3 directionToItem = (target.position - transform.position).normalized;
+            float angle = Vector3.Angle(transform.forward, directionToItem);
+            if (angle > rotateAngle)
+            {
+                Quaternion desiredRotation = Quaternion.LookRotation(directionToItem, Vector3.up);
+                transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, rotateSpeed * Time.deltaTime);
+            }
+
+            if (currentTimeBwtAttack >= timeBwtAttack)
+            {
+                animator.SetTrigger("Attack");
+                currentTimeBwtAttack = 0f;
+                attacking = true;
+            }
         }
         else
         {
             currentSpeed = runSpeed;
             agent.SetDestination(target.position);
+            if (distance >= chaseMaxDistance)
+            {
+                target = null;
+            }
         }
     }
     public void Attack()
@@ -120,8 +167,16 @@ public class Enemy : ObjectHealth
         if (attackPos != null)
         {
             Collider[] hits = Physics.OverlapSphere(attackPos.position, attackRadious, attackMask);
+
+            List<GameObject> wasHitted = new();
             foreach (Collider hit in hits)
             {
+                if (wasHitted.Contains(hit.gameObject))
+                {
+                    continue;
+                }
+                wasHitted.Add(hit.gameObject);
+
                 if (hit.TryGetComponent<ObjectHealth>(out var health))
                 {
                     bool objectDie = health.TakeDamage(damage);
@@ -139,6 +194,19 @@ public class Enemy : ObjectHealth
         if (attackPos != null && showAttackCircle)
         {
             Gizmos.DrawWireSphere(attackPos.position, attackRadious);
+        }
+    }
+    private void SeeEnemies(Transform item)
+    {
+        float distance = Vector3.Distance(transform.position, item.position);
+        if (distance <= sawDistance)
+        {
+            Vector3 directionToItem = (item.position - transform.position).normalized;
+            float angle = Vector3.Angle(transform.forward, directionToItem);
+            if (angle <= sawAngle && target == null)
+            {
+                target = item;
+            }
         }
     }
 }
