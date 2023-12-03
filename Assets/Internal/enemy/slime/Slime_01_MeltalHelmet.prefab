@@ -191,13 +191,20 @@ MonoBehaviour:
   attackRadious: 0.25
   showAttackCircle: 1
   enemyType: 1
-  attackStopDistance: 0.1
-  timeBwtAttack: 1
+  attackStopDistance: 1
+  timeBwtAttack: 1.5
   attackMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16384
   attackByCustomFrame: 1
   attackInFrame: 1
+  sawAngle: 80
+  sawDistance: 10
+  chaseMaxDistance: 20
+  rotateAngle: 10
+  rotateSpeed: 10
+  delayDestroyTime: 1
+  dropItems: []
 --- !u!1 &5948988603512322789
 GameObject:
   m_ObjectHideFlags: 0

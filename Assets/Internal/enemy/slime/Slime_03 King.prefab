@@ -444,11 +444,16 @@ MonoBehaviour:
   timeBwtAttack: 1.5
   attackMask:
     serializedVersion: 2
-    m_Bits: 16384
+    m_Bits: 20480
   attackByCustomFrame: 1
   attackInFrame: 0.1
   sawAngle: 80
   sawDistance: 10
+  chaseMaxDistance: 20
+  rotateAngle: 10
+  rotateSpeed: 10
+  delayDestroyTime: 1
+  dropItems: []
 --- !u!1001 &3740715682509317146
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -23,6 +23,10 @@ public class PlayerHealth : ObjectHealth
     float currentMana = 0f;
     float currentFood = 0f;
 
+    [Space(10)]
+    [Header("Food config")]
+    [SerializeField] private float foodReduceRate = 0.5f;
+
     float plusMana = 0f;
     float plusFood = 0f;
     float plusHealth = 0f;
@@ -75,15 +79,28 @@ public class PlayerHealth : ObjectHealth
     private void Update()
     {
         ChangePlusHealth((int)plusHealth);
+        ConsumeFood();
+
     }
+    public override bool TakeDamage(int damage, GameObject enemy)
+    {
+        bool v = base.TakeDamage(damage, enemy);
+        UpdateUI(PlayerInforUI.Health);
+        PetController.instance.PlayerWasAttacked(enemy);
+        return v;
+    }
+
     public override bool TakeDamage(int damage)
     {
         bool v = base.TakeDamage(damage);
         UpdateUI(PlayerInforUI.Health);
         return v;
     }
-
-
+    private void ConsumeFood()
+    {
+        currentFood = Mathf.Max(0f, currentFood - Time.deltaTime * foodReduceRate);
+        UpdateUI(PlayerInforUI.Food);
+    }
 
     public float GetPlusSpeed()
     {

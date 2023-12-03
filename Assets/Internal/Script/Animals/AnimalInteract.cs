@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimalInteract : Interactible
@@ -19,19 +17,12 @@ public class AnimalInteract : Interactible
     {
         if (collecting != null && canInteracting && !wasInteracting)
         {
-            bool stillRemain = collecting.AddItem();
-            if (stillRemain)
+            collecting.AddItem();
+            wasInteracting = true;
+            if (animator != null)
             {
-                LogController.instance.Log(MessageController.INVENTORY_FULL);
-            }
-            else
-            {
-                wasInteracting = true;
-                if (animator != null)
-                {
-                    animator.SetTrigger("Die");
-                    Destroy(gameObject, 2f);
-                }
+                animator.SetTrigger("Die");
+                Destroy(gameObject, 2f);
             }
         }
     }

@@ -40,6 +40,17 @@ public class PetController : MonoBehaviour
             }
         }
     }
+    public void PlayerWasAttacked(GameObject newTarget)
+    {
+        if (pets == null)
+        {
+            return;
+        }
+        foreach (FollowingAnimals pet in pets)
+        {
+            pet.PlayerWasAttack(newTarget);
+        }
+    }
     public void SpawnPetItem()
     {
         ClearPetItem();

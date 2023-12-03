@@ -439,14 +439,21 @@ MonoBehaviour:
   attackPos: {fileID: 6699021994185294846}
   attackRadious: 0.34
   showAttackCircle: 1
-  enemyType: 1
-  attackStopDistance: 0.1
-  timeBwtAttack: 1
+  enemyType: 2
+  attackStopDistance: 1
+  timeBwtAttack: 1.5
   attackMask:
     serializedVersion: 2
     m_Bits: 20480
   attackByCustomFrame: 1
-  attackInFrame: 1
+  attackInFrame: 0.1
+  sawAngle: 80
+  sawDistance: 10
+  chaseMaxDistance: 20
+  rotateAngle: 10
+  rotateSpeed: 10
+  delayDestroyTime: 1
+  dropItems: []
 --- !u!1001 &7402305687998886279
 PrefabInstance:
   m_ObjectHideFlags: 0

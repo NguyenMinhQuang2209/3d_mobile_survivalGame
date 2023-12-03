@@ -7,9 +7,8 @@ public class CollectingObject : MonoBehaviour
     [SerializeField] private List<CollectingItem> collectingItems = new();
 
     readonly List<RemainCollectingItem> remainItems = new();
-    public bool AddItem()
+    public void AddItem()
     {
-        bool itemRemain = false;
         for (int i = 0; i < collectingItems.Count; i++)
         {
             CollectingItem collectingItem = collectingItems[i];
@@ -19,10 +18,22 @@ public class CollectingObject : MonoBehaviour
             if (remain > 0)
             {
                 remainItems.Add(new(collectingItem.item, remain));
-                itemRemain = true;
             }
         }
-        return itemRemain;
+        CheckRemainItem();
+    }
+    private void CheckRemainItem()
+    {
+        if (remainItems == null)
+        {
+            return;
+        }
+        List<DropItemInfor> items = new();
+        foreach (RemainCollectingItem item in remainItems)
+        {
+            items.Add(new(item.item, item.quantity));
+        }
+        BagController.instance.SpawnBag(items, transform.position + Vector3.up);
     }
 }
 [System.Serializable]

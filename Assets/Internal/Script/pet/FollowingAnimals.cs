@@ -28,7 +28,6 @@ public class FollowingAnimals : ObjectHealth
     [SerializeField] private float attackPosRadious = 1f;
     [SerializeField] private LayerMask attackMask;
     [SerializeField] private bool showAttackCircle = false;
-
     [SerializeField] private bool useAttackInFirstFrame = true;
 
     [Header("Pet config")]
@@ -55,6 +54,12 @@ public class FollowingAnimals : ObjectHealth
     [SerializeField] private Vector2 patrolRandomZ;
     [SerializeField] private float patrolWaitTime = 2f;
     float currentPatrolWaitTime = 0f;
+
+    [Space(10)]
+    [Header("Saw enemy Attack State")]
+    [SerializeField] private float sawDistance = 10f;
+    [SerializeField] private float rotateAngle = 10f;
+    [SerializeField] private float rotateSpeed = 10f;
 
     private void Start()
     {
@@ -89,14 +94,23 @@ public class FollowingAnimals : ObjectHealth
             currentTimeBwtAttack += Time.deltaTime;
             if (target != null)
             {
-                if (agent.remainingDistance <= stopDitance)
+                float distance = Vector3.Distance(transform.position, target.position);
+                if (distance <= stopDitance)
                 {
                     currentSpeed = 0f;
                     speedAnimator = 0f;
+                    Vector3 directionToItem = (target.position - transform.position).normalized;
+                    float angle = Vector3.Angle(transform.forward, directionToItem);
+                    if (angle > rotateAngle)
+                    {
+                        Quaternion desiredRotation = Quaternion.LookRotation(directionToItem, Vector3.up);
+                        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, rotateSpeed * Time.deltaTime);
+                    }
                     if (currentTimeBwtAttack >= timeBwtAttack - plusTimeBwtAttack)
                     {
                         BaseAttacking();
                     }
+                    agent.SetDestination(transform.position);
                 }
                 else
                 {
@@ -107,6 +121,11 @@ public class FollowingAnimals : ObjectHealth
             }
             else
             {
+                if (currentMode == MessageController.ATTACK)
+                {
+                    SawObject();
+                }
+
                 float distance = Vector3.Distance(transform.position, player.position);
                 if (distance <= stopPlayerDistance)
                 {
@@ -167,6 +186,13 @@ public class FollowingAnimals : ObjectHealth
             Attack();
         }
     }
+    public void PlayerWasAttack(GameObject newTarget)
+    {
+        if (target == null)
+        {
+            target = newTarget.transform;
+        }
+    }
 
     public override bool TakeDamage(int damage, GameObject hittedBy)
     {
@@ -184,11 +210,22 @@ public class FollowingAnimals : ObjectHealth
         {
             if (hit.gameObject.TryGetComponent<ObjectHealth>(out var objectHealth))
             {
-                bool objectDie = objectHealth.TakeDamage((int)(damage + plusDamage));
+                bool objectDie = objectHealth.TakeDamage((int)(damage + plusDamage), gameObject);
                 if (objectDie)
                 {
                     target = null;
                 }
+            }
+        }
+    }
+    public void SawObject()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, sawDistance, attackMask);
+        if (hits.Length > 0)
+        {
+            if (target == null)
+            {
+                target = hits[0].transform;
             }
         }
     }

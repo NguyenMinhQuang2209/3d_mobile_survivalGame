@@ -57,17 +57,35 @@ public class Enemy : ObjectHealth
 
     bool attacking = false;
 
+    [Space(10)]
+    [Header("Drop items")]
+    [SerializeField] private float delayDestroyTime = 1f;
+    [SerializeField] private List<InventoryItemByName> dropItems = new();
+
+    bool wasSpawn = false;
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag(TagController.PLAYER_TAG).transform;
         pets = GameObject.FindGameObjectsWithTag(TagController.PET_TAG);
-
         defaultPlace = transform.position;
+
+        MyInitialized();
     }
     private void Update()
     {
+        if (ObjectDie())
+        {
+            if (!wasSpawn)
+            {
+                Destroy(gameObject, delayDestroyTime);
+                animator.SetTrigger("Die");
+                wasSpawn = true;
+            }
+            return;
+        }
         currentSpeed = walkSpeed;
         if (target != null && enemyType != EnemyType.No_Attack)
         {
@@ -100,6 +118,13 @@ public class Enemy : ObjectHealth
         if (animator != null)
         {
             animator.SetFloat("Speed", currentSpeed);
+        }
+    }
+    private void OnDestroy()
+    {
+        if (ObjectDie())
+        {
+            BagController.instance.SpawnBag(dropItems, transform.position + Vector3.up);
         }
     }
 
@@ -174,6 +199,7 @@ public class Enemy : ObjectHealth
         }
         return v;
     }
+
     public void Attack()
     {
         if (attackPos != null)
@@ -191,7 +217,7 @@ public class Enemy : ObjectHealth
 
                 if (hit.TryGetComponent<ObjectHealth>(out var health))
                 {
-                    bool objectDie = health.TakeDamage(damage);
+                    bool objectDie = health.TakeDamage(damage, gameObject);
                     if (objectDie)
                     {
                         target = null;
