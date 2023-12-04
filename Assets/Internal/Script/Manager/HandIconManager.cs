@@ -101,7 +101,7 @@ public class HandIconManager : MonoBehaviour
     {
         if (currentState == PUNCHING_STATE)
         {
-
+            UIController.instance.Interact();
         }
         else if (currentState == INTERACING_STATE)
         {

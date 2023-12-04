@@ -86,3 +86,8 @@ public enum EnemyType
     Attack_When_See,
     Attack_When_Was_Hitted
 }
+public enum WeaponType
+{
+    Hand = 0,
+    Sword = 1,
+}

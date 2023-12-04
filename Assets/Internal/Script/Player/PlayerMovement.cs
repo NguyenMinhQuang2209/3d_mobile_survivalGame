@@ -29,13 +29,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform interactTarget;
     [SerializeField] private bool showInteractCircle = false;
 
+
     float currentVelocity;
     bool isGround = false;
     Vector3 velocity;
     Interactible interactibleTarget;
+
+    private PlayerAttacking playerAttacking;
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+        playerAttacking = GetComponent<PlayerAttacking>();
     }
     private void Update()
     {
@@ -118,7 +122,14 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnInteract()
     {
-        interactibleTarget?.Interact();
+        if (interactibleTarget != null)
+        {
+            interactibleTarget.Interact();
+        }
+        else
+        {
+            playerAttacking.StartAttacking();
+        }
     }
     public void OnDrawGizmos()
     {
@@ -128,6 +139,11 @@ public class PlayerMovement : MonoBehaviour
         }
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(interactTarget.position, interactRadious);
+    }
+
+    public Animator GetAnimator()
+    {
+        return animator;
     }
 
 }

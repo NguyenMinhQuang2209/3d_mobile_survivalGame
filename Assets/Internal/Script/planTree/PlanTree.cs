@@ -192,13 +192,12 @@ public class PlanTree : Interactible
         if (canCollect)
         {
             int quantity = currentItem.GetQuantity();
-            int remain = InventoryController.instance.AddItem(currentItem.GetInventoryItem(), quantity);
 
-            if (remain == quantity)
+            List<DropItemInfor> items = new()
             {
-                LogController.instance.Log(MessageController.INVENTORY_FULL);
-                return;
-            }
+                new(currentItem.GetInventoryItem(), quantity)
+            };
+            BagController.instance.SpawnBag(items, transform.position + Vector3.up);
             PlanSeedItem(null);
             promptMessage = defaultPromptMessage;
         }
