@@ -67,6 +67,11 @@ public class InventoryAction : MonoBehaviour
                     {
                         EquipmentController.instance.EquipmentItem(item);
                         HandIconManager.instance.UpdatePunchIcon();
+
+                        if (item.TryGetComponent<ItemEquipmentConfig>(out var itemConfig))
+                        {
+                            CharacterEquipmentController.instance.CharacterEquipment(itemConfig.equipmentFor, itemConfig.GetWorldObject(), itemConfig.GetMaterial());
+                        }
                     }
                     else
                     {
@@ -75,6 +80,11 @@ public class InventoryAction : MonoBehaviour
                         if (!canAddInventory)
                         {
                             LogController.instance.Log(MessageController.INVENTORY_FULL, gameObject);
+                        }
+
+                        if (item.TryGetComponent<ItemEquipmentConfig>(out var itemConfig))
+                        {
+                            CharacterEquipmentController.instance.CharacterEquipment(itemConfig.equipmentFor, null, null);
                         }
                     }
                     CloseActionBar();

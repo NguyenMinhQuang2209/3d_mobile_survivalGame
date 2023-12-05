@@ -11,7 +11,9 @@
     Food,
     Bag,
     Seed,
-    FarmingTool
+    FarmingTool,
+    Sword,
+    Gun
 }
 public enum ItemName
 {
@@ -49,7 +51,8 @@ public enum ItemName
     PumpkinSeed,
     WheatSeed,
     Fertilizer,
-    Water
+    Water,
+    Sword_White,
 }
 
 public enum FarmToolName
@@ -90,4 +93,12 @@ public enum WeaponType
 {
     Hand = 0,
     Sword = 1,
+}
+public enum EquipmentFor
+{
+    Hand,
+    Shirt,
+    Pant,
+    Shoe,
+    Hat
 }
