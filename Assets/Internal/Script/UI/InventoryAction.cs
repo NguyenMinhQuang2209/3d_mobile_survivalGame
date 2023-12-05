@@ -70,7 +70,7 @@ public class InventoryAction : MonoBehaviour
 
                         if (item.TryGetComponent<ItemEquipmentConfig>(out var itemConfig))
                         {
-                            CharacterEquipmentController.instance.CharacterEquipment(itemConfig.equipmentFor, itemConfig.GetWorldObject(), itemConfig.GetMaterial());
+                            CharacterEquipmentController.instance.CharacterEquipment(itemConfig, itemConfig.equipmentFor, itemConfig.GetWorldObject(), itemConfig.GetMaterial());
                         }
                     }
                     else
@@ -84,7 +84,7 @@ public class InventoryAction : MonoBehaviour
 
                         if (item.TryGetComponent<ItemEquipmentConfig>(out var itemConfig))
                         {
-                            CharacterEquipmentController.instance.CharacterEquipment(itemConfig.equipmentFor, null, null);
+                            CharacterEquipmentController.instance.CharacterEquipment(itemConfig, itemConfig.equipmentFor, null, null);
                         }
                     }
                     CloseActionBar();

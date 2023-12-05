@@ -12,6 +12,8 @@ public class ItemEquipmentConfig : MonoBehaviour
     [Header("For change color")]
     [SerializeField] private ColorName colorName;
 
+    [SerializeField] private EquipmentPlusConfig weaponConfig;
+
     public GameObject GetWorldObject()
     {
         return worldObject;
@@ -25,5 +27,9 @@ public class ItemEquipmentConfig : MonoBehaviour
     public EquipmentFor GetEquipmentFor()
     {
         return equipmentFor;
+    }
+    public EquipmentPlusConfig GetWeaponConfig()
+    {
+        return weaponConfig;
     }
 }

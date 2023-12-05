@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 398580951032760829}
   - component: {fileID: 3907624032315014092}
   - component: {fileID: 6700698331162937250}
+  - component: {fileID: -5104857784343606731}
   m_Layer: 0
   m_Name: sword
   m_TagString: Untagged
@@ -62,7 +63,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -876546973899608171, guid: a488095c2ac3c744c849d3c0eb9e9bc4, type: 3}
-  - {fileID: -6478536213147159724, guid: a488095c2ac3c744c849d3c0eb9e9bc4, type: 3}
+  - {fileID: 6407905733916077036, guid: 5fad27dd766a0fe4ebba26e7accbb9e5, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,3 +85,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-5104857784343606731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3993621391842765304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e3a94b5eaab4c4590d9ae8a329f480, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  changeMaterialIn: 1

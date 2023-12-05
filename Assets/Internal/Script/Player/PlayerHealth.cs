@@ -76,11 +76,13 @@ public class PlayerHealth : ObjectHealth
                 break;
         }
     }
+    public void UpdateUI()
+    {
+        UpdateUI(PlayerInforUI.All);
+    }
     private void Update()
     {
-        ChangePlusHealth((int)plusHealth);
         ConsumeFood();
-
     }
     public override bool TakeDamage(int damage, GameObject enemy)
     {
@@ -109,5 +111,15 @@ public class PlayerHealth : ObjectHealth
     public float GetPlusDamage()
     {
         return plusDamage;
+    }
+
+    public void UpdatePlusDetail(EquipmentPlusConfig config)
+    {
+        plusHealth = config.plusHealth;
+        plusMana = config.plusMana;
+        plusSpeed = config.plusSpeed;
+        plusFood = config.plusFood;
+        ChangePlusHealth((int)plusHealth);
+        UpdateUI();
     }
 }

@@ -34,7 +34,7 @@ public class CharacterConfig : MonoBehaviour
         }
     }
 
-    public void ChangeColorEquipment(EquipmentFor equipmentFor, GameObject worldItem, Material color)
+    public void ChangeColorEquipment(ItemEquipmentConfig configEquipment, EquipmentFor equipmentFor, GameObject worldItem, Material color)
     {
         switch (equipmentFor)
         {
@@ -43,10 +43,14 @@ public class CharacterConfig : MonoBehaviour
                 {
                     Destroy(child.gameObject);
                 }
-                playerAttacking.SwitchAttackingType(worldItem == null ? WeaponType.Hand : WeaponType.Sword);
+                playerAttacking.SwitchAttackingType(worldItem == null ? WeaponType.Hand : WeaponType.Sword, configEquipment ? configEquipment.GetWeaponConfig() : null);
                 if (worldItem != null)
                 {
-                    Instantiate(worldItem, handHolder.transform);
+                    GameObject handHolderItem = Instantiate(worldItem, handHolder.transform);
+                    if (handHolderItem.TryGetComponent<ColorConfig>(out var colorConfigItem))
+                    {
+                        colorConfigItem.ChangeMaterial(color);
+                    }
                 }
                 break;
             case EquipmentFor.Shirt:

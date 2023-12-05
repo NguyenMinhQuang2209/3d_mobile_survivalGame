@@ -8,7 +8,7 @@ public class PlayerAttacking : MonoBehaviour
     [SerializeField] private int maxHandAttackingType = 4;
     [SerializeField] private float handTimeBwtAttack = 0f;
     [SerializeField] private float handAttackRadious = 1f;
-    [SerializeField] private WeaponConfig handWeaponConfig;
+    [SerializeField] private EquipmentPlusConfig handWeaponConfig;
 
     [Space(10)]
     [Header("Sword attacking config")]
@@ -24,8 +24,10 @@ public class PlayerAttacking : MonoBehaviour
 
 
     Animator animator;
+    PlayerHealth playerHealth;
 
-    private WeaponConfig currentWeaponConfig = null;
+
+    private EquipmentPlusConfig currentWeaponConfig = null;
     [Space(10)]
     [Header("Attack config")]
     [SerializeField] private Transform attackPos;
@@ -39,6 +41,7 @@ public class PlayerAttacking : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<PlayerMovement>().GetAnimator();
+        playerHealth = GetComponent<PlayerHealth>();
 
         SwitchAttackingType(WeaponType.Hand);
         currentTimeBwtAttackDelay = currentTimeBwtAttack;
@@ -61,11 +64,12 @@ public class PlayerAttacking : MonoBehaviour
             }
         }
     }
-    public void SwitchAttackingType(WeaponType newWeaponType, float newAttackRadious = 0f, WeaponConfig newWeaponConfig = null)
+    public void SwitchAttackingType(WeaponType newWeaponType, EquipmentPlusConfig newWeaponConfig = null, float newAttackRadious = 0f)
     {
         weaponType = newWeaponType;
 
-        currentWeaponConfig = newWeaponConfig ?? handWeaponConfig;
+        currentWeaponConfig = newWeaponConfig;
+
 
         switch (weaponType)
         {
@@ -73,6 +77,7 @@ public class PlayerAttacking : MonoBehaviour
                 currentTimeBwtAttack = handTimeBwtAttack;
                 currentMaxAttackingType = maxHandAttackingType;
                 currentAttackRadious = handAttackRadious;
+                currentWeaponConfig = handWeaponConfig;
                 break;
             case WeaponType.Sword:
                 currentTimeBwtAttack = swordTimeBwtAttack;
@@ -85,6 +90,8 @@ public class PlayerAttacking : MonoBehaviour
         }
         int weaponTypeValue = (int)weaponType;
         animator.SetInteger("AttackType", weaponTypeValue);
+
+        UpdatePlayerHealth();
     }
     public void Attack()
     {
@@ -123,11 +130,28 @@ public class PlayerAttacking : MonoBehaviour
             Gizmos.DrawWireSphere(attackPos.position, handAttackRadious);
         }
     }
+    public EquipmentPlusConfig GetWeaponConfig()
+    {
+        return currentWeaponConfig;
+    }
+    public void UpdatePlayerHealth()
+    {
+        if (playerHealth != null)
+        {
+            playerHealth.UpdatePlusDetail(currentWeaponConfig);
+        }
+    }
 }
 [System.Serializable]
-public class WeaponConfig
+public class EquipmentPlusConfig
 {
     public Vector2Int treeDamage = Vector2Int.one;
     public Vector2Int rockDamage = Vector2Int.one;
     public Vector2Int enemyDamage = Vector2Int.one;
+
+    [Space(10)]
+    public int plusHealth = 0;
+    public int plusMana = 0;
+    public int plusFood = 0;
+    public float plusSpeed = 0f;
 }

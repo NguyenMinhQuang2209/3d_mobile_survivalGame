@@ -53,6 +53,10 @@ public enum ItemName
     Fertilizer,
     Water,
     Sword_White,
+    Sword_Red,
+    Sword_Green,
+    Sword_Blue,
+    Sword_Pink
 }
 
 public enum FarmToolName
@@ -72,9 +76,7 @@ public enum ColorName
     Black,
     White,
     Purple,
-    Violet,
     Pink,
-    Blur_Green,
 }
 public enum GrowingType
 {

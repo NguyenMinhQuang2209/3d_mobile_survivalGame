@@ -27,19 +27,19 @@ public class CharacterEquipmentController : MonoBehaviour
             }
         }
     }
-    public void CharacterEquipment(EquipmentFor equipmentFor, GameObject worldItem, Material color)
+    public void CharacterEquipment(ItemEquipmentConfig configEquipment, EquipmentFor equipmentFor, GameObject worldItem, Material color)
     {
         if (config != null)
         {
-            config.ChangeColorEquipment(equipmentFor, worldItem, color);
+            config.ChangeColorEquipment(configEquipment, equipmentFor, worldItem, color);
         }
     }
-    public void CharacterEquipment(EquipmentFor equipmentFor, GameObject worldItem)
+    public void CharacterEquipment(ItemEquipmentConfig configEquipment, EquipmentFor equipmentFor, GameObject worldItem)
     {
-        CharacterEquipment(equipmentFor, worldItem, null);
+        CharacterEquipment(configEquipment, equipmentFor, worldItem, null);
     }
-    public void CharacterEquipment(EquipmentFor equipmentFor, Material color)
+    public void CharacterEquipment(ItemEquipmentConfig configEquipment, EquipmentFor equipmentFor, Material color)
     {
-        CharacterEquipment(equipmentFor, null, color);
+        CharacterEquipment(configEquipment, equipmentFor, null, color);
     }
 }
