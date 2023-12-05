@@ -70,9 +70,9 @@ PlayerSettings:
   androidUseSwappy: 1
   androidBlitType: 2
   androidResizableWindow: 0
-  androidDefaultWindowWidth: 800
-  androidDefaultWindowHeight: 480
-  androidMinimumWindowWidth: 400
+  androidDefaultWindowWidth: 1620
+  androidDefaultWindowHeight: 720
+  androidMinimumWindowWidth: 700
   androidMinimumWindowHeight: 300
   androidFullscreenMode: 3
   defaultIsNativeResolution: 1
@@ -136,7 +136,10 @@ PlayerSettings:
   vulkanEnableCommandBufferRecycling: 1
   loadStoreDebugModeEnabled: 0
   bundleVersion: 1.0.2
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: -3540837054725133293, guid: bdb8d1ba84aad9d43b375e69087761c0, type: 2}
+  - {fileID: 11400000, guid: ce82b00e5c4c9f1489352960f7cf0992, type: 2}
+  - {fileID: 11400000, guid: 629741b8a72479744b1dd4bfc530fc19, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -156,7 +159,8 @@ PlayerSettings:
   resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Android: com.DefaultCompany.Mobile_Game_1
   buildNumber:
     Standalone: 0
     VisionOS: 0
