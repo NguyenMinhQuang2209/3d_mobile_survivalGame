@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerAttacking : MonoBehaviour
@@ -26,8 +27,8 @@ public class PlayerAttacking : MonoBehaviour
     Animator animator;
     PlayerHealth playerHealth;
 
+    private List<EquipmentPlusConfigList> currentEquipmentConfigList = new();
 
-    private EquipmentPlusConfig currentWeaponConfig = null;
     [Space(10)]
     [Header("Attack config")]
     [SerializeField] private Transform attackPos;
@@ -37,13 +38,17 @@ public class PlayerAttacking : MonoBehaviour
     [SerializeField] private LayerMask rockMask;
     float currentAttackRadious = 0f;
 
+    private EquipmentPlusConfig currentEquipment = new();
+
 
     private void Start()
     {
         animator = GetComponent<PlayerMovement>().GetAnimator();
         playerHealth = GetComponent<PlayerHealth>();
 
-        SwitchAttackingType(WeaponType.Hand);
+        currentEquipmentConfigList.Add(new(handWeaponConfig, EquipmentFor.Hand));
+
+        SwitchAttackingType(WeaponType.Hand, EquipmentFor.Hand);
         currentTimeBwtAttackDelay = currentTimeBwtAttack;
     }
 
@@ -64,12 +69,13 @@ public class PlayerAttacking : MonoBehaviour
             }
         }
     }
-    public void SwitchAttackingType(WeaponType newWeaponType, EquipmentPlusConfig newWeaponConfig = null, float newAttackRadious = 0f)
+    public void SwitchAttackingType(WeaponType newWeaponType, EquipmentFor equipmentFor, EquipmentPlusConfig newWeaponConfig = null, float newAttackRadious = 0f)
     {
         weaponType = newWeaponType;
 
-        currentWeaponConfig = newWeaponConfig;
+        AddingEquipmentPlus(newWeaponType == WeaponType.Hand ? handWeaponConfig : newWeaponConfig, equipmentFor);
 
+        UpdateEquipmentPlus();
 
         switch (weaponType)
         {
@@ -77,7 +83,6 @@ public class PlayerAttacking : MonoBehaviour
                 currentTimeBwtAttack = handTimeBwtAttack;
                 currentMaxAttackingType = maxHandAttackingType;
                 currentAttackRadious = handAttackRadious;
-                currentWeaponConfig = handWeaponConfig;
                 break;
             case WeaponType.Sword:
                 currentTimeBwtAttack = swordTimeBwtAttack;
@@ -91,22 +96,69 @@ public class PlayerAttacking : MonoBehaviour
         int weaponTypeValue = (int)weaponType;
         animator.SetInteger("AttackType", weaponTypeValue);
 
-        UpdatePlayerHealth();
     }
+
+    public void SwitchEquipmentType(EquipmentFor equipmentFor, EquipmentPlusConfig newWeaponConfig)
+    {
+        AddingEquipmentPlus(newWeaponConfig, equipmentFor);
+
+        UpdateEquipmentPlus();
+    }
+    public void AddingEquipmentPlus(EquipmentPlusConfig newWeaponConfig, EquipmentFor equipmentFor)
+    {
+        bool havingItem = false;
+        foreach (EquipmentPlusConfigList item in currentEquipmentConfigList)
+        {
+            if (item.equipmentFor == equipmentFor)
+            {
+                havingItem = true;
+                item.equipmentPlusConfig = newWeaponConfig;
+                return;
+            }
+        }
+        if (!havingItem)
+        {
+            currentEquipmentConfigList.Add(new(newWeaponConfig, equipmentFor));
+        }
+    }
+
+    private void UpdateEquipmentPlus()
+    {
+        currentEquipment.ResetData();
+        foreach (EquipmentPlusConfigList item in currentEquipmentConfigList)
+        {
+            if (item.equipmentPlusConfig == null)
+            {
+                continue;
+            }
+            currentEquipment.treeDamage += item.equipmentPlusConfig.treeDamage;
+            currentEquipment.rockDamage += item.equipmentPlusConfig.rockDamage;
+            currentEquipment.enemyDamage += item.equipmentPlusConfig.enemyDamage;
+
+            currentEquipment.plusHealth += item.equipmentPlusConfig.plusHealth;
+            currentEquipment.plusMana += item.equipmentPlusConfig.plusMana;
+            currentEquipment.plusFood += item.equipmentPlusConfig.plusFood;
+            currentEquipment.plusSpeed += item.equipmentPlusConfig.plusSpeed;
+        }
+
+        UpdatePlayerHealth();
+
+    }
+
     public void Attack()
     {
         Collider[] hits = Physics.OverlapSphere(attackPos.position, currentAttackRadious, attackMask);
         foreach (Collider hit in hits)
         {
-            if (CheckAttackObject(treeMask, hit, currentWeaponConfig.treeDamage))
+            if (CheckAttackObject(treeMask, hit, currentEquipment.treeDamage))
             {
                 continue;
             }
-            if (CheckAttackObject(rockMask, hit, currentWeaponConfig.rockDamage))
+            if (CheckAttackObject(rockMask, hit, currentEquipment.rockDamage))
             {
                 continue;
             }
-            CheckAttackObject(attackMask, hit, currentWeaponConfig.enemyDamage);
+            CheckAttackObject(attackMask, hit, currentEquipment.enemyDamage);
         }
     }
     private bool CheckAttackObject(LayerMask mask, Collider hit, Vector2Int damage)
@@ -130,15 +182,11 @@ public class PlayerAttacking : MonoBehaviour
             Gizmos.DrawWireSphere(attackPos.position, handAttackRadious);
         }
     }
-    public EquipmentPlusConfig GetWeaponConfig()
-    {
-        return currentWeaponConfig;
-    }
     public void UpdatePlayerHealth()
     {
         if (playerHealth != null)
         {
-            playerHealth.UpdatePlusDetail(currentWeaponConfig);
+            playerHealth.UpdatePlusDetail(currentEquipment);
         }
     }
 }
@@ -154,4 +202,28 @@ public class EquipmentPlusConfig
     public int plusMana = 0;
     public int plusFood = 0;
     public float plusSpeed = 0f;
+
+    public void ResetData()
+    {
+        treeDamage = Vector2Int.zero;
+        rockDamage = Vector2Int.zero;
+        enemyDamage = Vector2Int.zero;
+
+        plusHealth = 0;
+        plusMana = 0;
+        plusFood = 0;
+        plusSpeed = 0f;
+    }
+}
+
+
+public class EquipmentPlusConfigList
+{
+    public EquipmentPlusConfig equipmentPlusConfig;
+    public EquipmentFor equipmentFor;
+    public EquipmentPlusConfigList(EquipmentPlusConfig equipmentPlusConfig, EquipmentFor equipmentFor)
+    {
+        this.equipmentPlusConfig = equipmentPlusConfig;
+        this.equipmentFor = equipmentFor;
+    }
 }

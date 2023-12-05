@@ -56,7 +56,27 @@ public enum ItemName
     Sword_Red,
     Sword_Green,
     Sword_Blue,
-    Sword_Pink
+    Sword_Pink,
+    Shirt_Blue,
+    Shirt_Green,
+    Shirt_Red,
+    Shirt_Pink,
+    Shirt_White,
+    Pant_Blue,
+    Pant_Green,
+    Pant_Red,
+    Pant_Pink,
+    Pant_White,
+    Shoe_Blue,
+    Shoe_Green,
+    Shoe_Red,
+    Shoe_Pink,
+    Shoe_White,
+    Hat_Blue,
+    Hat_Green,
+    Hat_Red,
+    Hat_Pink,
+    Hat_White,
 }
 
 public enum FarmToolName
