@@ -41,4 +41,9 @@ public class InventoryItemByName
 {
     public ItemName itemName;
     public int quantity;
+    public InventoryItemByName(ItemName itemName, int quantity)
+    {
+        this.itemName = itemName;
+        this.quantity = quantity;
+    }
 }

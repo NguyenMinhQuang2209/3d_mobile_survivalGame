@@ -8,6 +8,7 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
     [SerializeField] string _iOSAdUnitId = "Rewarded_iOS";
     string _adUnitId = null;
 
+
     void Awake()
     {
 #if UNITY_IOS
