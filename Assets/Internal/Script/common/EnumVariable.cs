@@ -77,6 +77,8 @@ public enum ItemName
     Hat_Red,
     Hat_Pink,
     Hat_White,
+    Stick,
+    Stone
 }
 
 public enum FarmToolName

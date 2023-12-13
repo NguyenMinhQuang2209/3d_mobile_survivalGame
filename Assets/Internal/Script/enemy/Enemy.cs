@@ -59,6 +59,7 @@ public class Enemy : ObjectHealth
     [Space(10)]
     [Header("Drop items")]
     [SerializeField] private float delayDestroyTime = 1f;
+    [SerializeField] private int getCoin = 0;
     [SerializeField] private List<InventoryItemByName> dropItems = new();
 
     bool wasSpawn = false;
@@ -123,7 +124,7 @@ public class Enemy : ObjectHealth
     {
         if (ObjectDie())
         {
-            BagController.instance.SpawnBag(dropItems, transform.position + Vector3.up);
+            BagController.instance.SpawnBag(dropItems, transform.position + Vector3.up, getCoin);
         }
     }
 

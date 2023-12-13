@@ -197,7 +197,7 @@ public class PlanTree : Interactible
             {
                 new(currentItem.GetInventoryItem(), quantity)
             };
-            BagController.instance.SpawnBag(items, transform.position + Vector3.up);
+            BagController.instance.SpawnBag(items, transform.position + Vector3.up, 0);
             PlanSeedItem(null);
             promptMessage = defaultPromptMessage;
         }

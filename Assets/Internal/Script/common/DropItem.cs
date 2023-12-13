@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DropItem : Interactible
 {
+    private int collectingCoin = 0;
     private List<DropItemInfor> items = new();
     public override void Interact()
     {
@@ -45,9 +46,10 @@ public class DropItem : Interactible
             items = remainItems;
         }
     }
-    public void MyInitialized(List<DropItemInfor> newItems)
+    public void MyInitialized(List<DropItemInfor> newItems, int newCoin)
     {
         items = newItems;
+        collectingCoin = newCoin;
     }
 }
 [System.Serializable]

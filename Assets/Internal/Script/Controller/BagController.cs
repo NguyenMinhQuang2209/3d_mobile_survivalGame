@@ -16,12 +16,16 @@ public class BagController : MonoBehaviour
         instance = this;
     }
 
-    public void SpawnBag(List<DropItemInfor> items, Vector3 spawnPosition)
+    public void SpawnBag(List<DropItemInfor> items, Vector3 spawnPosition, int collectingCoin)
     {
+        if (items == null || items.Count == 0)
+        {
+            return;
+        }
         DropItem tempBag = Instantiate(bag, spawnPosition, Quaternion.identity);
-        tempBag.MyInitialized(items);
+        tempBag.MyInitialized(items, collectingCoin);
     }
-    public void SpawnBag(List<InventoryItemByName> items, Vector3 spawnPosition)
+    public void SpawnBag(List<InventoryItemByName> items, Vector3 spawnPosition, int collectingCoin)
     {
         List<DropItemInfor> tempItems = new();
         foreach (InventoryItemByName item in items)
@@ -32,7 +36,7 @@ public class BagController : MonoBehaviour
                 tempItems.Add(new(inventoryItem, item.quantity));
             }
         }
-        SpawnBag(tempItems, spawnPosition);
+        SpawnBag(tempItems, spawnPosition, collectingCoin);
     }
 
 }

@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 2249690654157286516}
   - component: {fileID: 3146372599738789498}
   - component: {fileID: 4776061264092509190}
-  m_Layer: 0
+  - component: {fileID: 4456813200477047612}
+  m_Layer: 15
   m_Name: tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.9817264, y: 0.00000023841858, z: 2.3965096}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 2, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -97,3 +98,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86fb2c036c9eda428aaf263795737d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 30
+  currentHealth: 0
+  txtShowDelay: 5
+  offset: {x: 0, y: 2.5, z: -1}
+  spawnOffset: 0.5
+  delayDestroy: 1
+  collects:
+  - itemName: 60
+    maxQuantity: 30
+    isRareItem: 0
+    randomQuantity: {x: 0, y: 0}
+    rate: 0
+--- !u!64 &4456813200477047612
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4109404660155206057}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4781277628412113339, guid: 67e8cda2f038e9e49accc91d8a8de611, type: 3}

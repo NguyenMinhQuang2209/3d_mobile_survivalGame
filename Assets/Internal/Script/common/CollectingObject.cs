@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CollectingObject : MonoBehaviour
 {
+    [SerializeField] private int collectCoin = 0;
     [SerializeField] private List<CollectingItem> collectingItems = new();
 
     readonly List<RemainCollectingItem> remainItems = new();
@@ -33,7 +34,7 @@ public class CollectingObject : MonoBehaviour
         {
             items.Add(new(item.item, item.quantity));
         }
-        BagController.instance.SpawnBag(items, transform.position + Vector3.up);
+        BagController.instance.SpawnBag(items, transform.position + Vector3.up, collectCoin);
     }
 }
 [System.Serializable]

@@ -11,6 +11,8 @@ public class CollectingHittedObject : ObjectHealth
     private Animator animator;
 
     bool objectDie = false;
+
+    bool collecting = true;
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -18,11 +20,16 @@ public class CollectingHittedObject : ObjectHealth
     }
     public override bool TakeDamage(int damage)
     {
-        bool v = base.TakeDamage(damage);
-        if (!ObjectDie())
+        if (collecting)
         {
-            CollectItem();
+            int remainHealth = GetCurrentHealth();
+            if (remainHealth <= damage)
+            {
+                collecting = false;
+                CollectItem();
+            }
         }
+        bool v = base.TakeDamage(damage);
         return v;
     }
     private void Update()
@@ -33,8 +40,8 @@ public class CollectingHittedObject : ObjectHealth
             if (animator != null)
             {
                 animator.SetTrigger("Die");
-                Destroy(gameObject, delayDestroy);
             }
+            Destroy(gameObject, delayDestroy);
         }
     }
     private void CollectItem()
@@ -42,32 +49,35 @@ public class CollectingHittedObject : ObjectHealth
         List<InventoryItemByName> items = new();
         foreach (CollectingHittedItem item in collects)
         {
-            int quantity = Random.Range(Mathf.Min(item.quantity.x, item.quantity.y), Mathf.Max(item.quantity.x, item.quantity.y) + 1);
+            int quantity = item.maxQuantity;
             bool canGet = true;
-            if (item.useRandomRate)
+            if (item.isRareItem)
             {
+                quantity = Random.Range(Mathf.Min(item.randomQuantity.x, item.randomQuantity.y), Mathf.Max(item.randomQuantity.x, item.randomQuantity.y) + 1);
                 float getRate = Random.Range(0f, 100f);
                 if (getRate < item.rate)
                 {
                     canGet = false;
                 }
             }
-            if (canGet)
+            if (canGet && quantity >= 1)
             {
                 items.Add(new(item.itemName, quantity));
             }
         }
-        if (items != null)
-        {
-            BagController.instance.SpawnBag(items, transform.position - Vector3.forward * spawnOffset);
-        }
+        BagController.instance.SpawnBag(items, transform.position - Vector3.forward * spawnOffset + Vector3.up * 2f, 0);
     }
 }
 [System.Serializable]
 public class CollectingHittedItem
 {
     public ItemName itemName;
-    public Vector2Int quantity = Vector2Int.zero;
-    public bool useRandomRate = false;
+    public int maxQuantity = 1;
+
+    [Space(10)]
+    [Tooltip("For rare item")]
+    [Header("Rare items config")]
+    public bool isRareItem = false;
+    public Vector2Int randomQuantity = Vector2Int.one;
     public float rate = 100f;
 }
